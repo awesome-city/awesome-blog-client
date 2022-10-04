@@ -1,24 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { PublicRoutingModule } from './public-routing.module';
-import { TopComponent } from './pages/top/top.component';
-import { ArticleComponent } from './pages/article/article.component';
-import { ArticlePageComponent } from './pages/article-page/article-page.component';
-import { TopPageComponent } from './pages/top-page/top-page.component';
-import { TagPageComponent } from './pages/tag-page/tag-page.component';
+import {PublicRoutingModule} from './public-routing.module';
+import {ArticlePageComponent} from './pages/article-page/article-page.component';
+import {TopPageComponent} from './pages/top-page/top-page.component';
+import {TagPageComponent} from './pages/tag-page/tag-page.component';
+import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
   declarations: [
-    TopComponent,
-    ArticleComponent,
     ArticlePageComponent,
     TopPageComponent,
     TagPageComponent
   ],
   imports: [
     CommonModule,
+    SharedModule,
     PublicRoutingModule
   ]
 })
