@@ -1,6 +1,12 @@
 import {Injectable} from "@angular/core";
 import {Actions, ofType} from "@ngrx/effects";
-import {ArticleAction, loadArticles, loadArticlesFailure, loadArticlesSuccess} from "../actions/article.action";
+import {
+  ArticleAction,
+  loadArticleAction, loadArticleFailureAction,
+  loadArticlesAction,
+  loadArticlesFailureAction,
+  loadArticlesSuccessAction, loadArticleSuccessAction
+} from "../actions/article.action";
 import {catchError, map, of, switchMap} from "rxjs";
 import {ArticleService} from "../../../../service/rest/article/article.service";
 
@@ -13,12 +19,22 @@ export class ArticleEffect {
   ) {
   }
 
-  loadAll = this.actions$.pipe(
-    ofType(loadArticles),
-    switchMap(({limit}) => this.articleService.findAll(limit).pipe(
-      map(value => loadArticlesSuccess(value)),
-      catchError(err => of(loadArticlesFailure()))
+  loadOne = this.actions$.pipe(
+    ofType(loadArticleAction),
+    switchMap(({id}) => this.articleService.findById(id).pipe(
+      map(result => loadArticleSuccessAction({result})),
+      catchError(error => of(loadArticleFailureAction({error})))
     ))
-  )
+  );
+
+  loadAll = this.actions$.pipe(
+    ofType(loadArticlesAction),
+    switchMap(({limit}) => this.articleService.findAll(limit).pipe(
+      map(result => loadArticlesSuccessAction({result})),
+      catchError(error => of(loadArticlesFailureAction({error})))
+    ))
+  );
+
+
 
 }

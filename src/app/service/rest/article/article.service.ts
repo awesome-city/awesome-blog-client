@@ -13,6 +13,11 @@ export class ArticleService {
   constructor(private http: HttpClient) {
   }
 
+  findById(articleId: string) {
+    const url = StringUtils.format(API.GET_ARTICLE, {id: articleId});
+    return this.http.get<Article>(url);
+  }
+
   findAll(limit?: number, lastEvaluatedKey?: string) {
     const url = API.GET_ARTICLES;
     let params = new HttpParams();
@@ -22,7 +27,7 @@ export class ArticleService {
   }
 
   findByTag(tagId: string, limit?: number, lastEvaluatedKey?: string) {
-    const url = StringUtils.format(API.GET_ARTICLES_BY_TAG, {tag: tagId});
+    const url = StringUtils.format(API.GET_ARTICLES_BY_TAG, {id: tagId});
     let params = new HttpParams();
     params = limit ? params.set('limit', `${limit}`) : params;
     params = limit ? params.set('lastEvaluatedKey', `${lastEvaluatedKey}`) : params;

@@ -2,38 +2,56 @@ import {createAction, props} from '@ngrx/store';
 import {Article} from "../../../../models/article";
 import {Paging} from "../../../../models/paging";
 
-export const loadArticles = createAction(
+export const loadArticleAction = createAction(
+  '[Article] load one',
+  props<{ id: string }>()
+);
+
+export const loadArticleSuccessAction = createAction(
+  '[Article] load one - Success',
+  props<{ result: Article }>()
+);
+
+export const loadArticleFailureAction = createAction(
+  '[Article] load one - Failure',
+  props<{ error: any }>()
+);
+
+export const loadArticlesAction = createAction(
   '[Article] load',
   props<{ limit?: number }>()
 );
 
-export const loadArticlesSuccess = createAction(
+export const loadArticlesSuccessAction = createAction(
   '[Article] load - Success',
-  props<Paging<Article>>()
+  props<{ result: Paging<Article> }>()
 );
 
-export const loadArticlesFailure = createAction(
-  '[Article] load - Failure'
+export const loadArticlesFailureAction = createAction(
+  '[Article] load - Failure',
+  props<{ error: any }>()
 );
 
-export const loadMoreArticles = createAction(
+export const loadMoreArticlesAction = createAction(
   '[Article] load more',
   props<{ limit?: number }>()
 );
 
-export const loadMoreArticlesSuccess = createAction(
+export const loadMoreArticlesSuccessAction = createAction(
   '[Article] load more - Success',
-  props<Paging<Article>>()
+  props<{ result: Paging<Article> }>()
 );
 
-export const loadMoreArticlesFailure = createAction(
-  '[Article] load more - Failure'
+export const loadMoreArticlesFailureAction = createAction(
+  '[Article] load more - Failure',
+  props<{ error: any }>()
 );
 
 export type ArticleAction =
-  typeof loadArticles
-  | typeof loadArticlesSuccess
-  | typeof loadArticlesFailure
-  | typeof loadMoreArticles
-  | typeof loadMoreArticlesSuccess
-  | typeof loadMoreArticlesFailure;
+  | typeof loadArticleAction
+  | typeof loadArticlesAction
+  | typeof loadArticlesSuccessAction
+  | typeof loadArticlesFailureAction
+  | typeof loadMoreArticlesAction
+  | typeof loadMoreArticlesSuccessAction
+  | typeof loadMoreArticlesFailureAction;
