@@ -6,7 +6,7 @@ export interface State {
   /**
    * ローディング状態
    */
-  loading: Map<string, string[]>;
+  loading: Set<string>;
 
   /**
    * サイト情報
@@ -20,7 +20,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  loading: new Map<string, string[]>(),
+  loading: new Set<string>(),
   site: undefined,
   author: undefined
 };

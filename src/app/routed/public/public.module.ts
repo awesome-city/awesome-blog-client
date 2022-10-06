@@ -6,6 +6,7 @@ import {ArticlePageComponent} from './pages/article-page/article-page.component'
 import {TopPageComponent} from './pages/top-page/top-page.component';
 import {TagPageComponent} from './pages/tag-page/tag-page.component';
 import {SharedModule} from "../../shared/shared.module";
+import {PublicStoreModule} from './store/public-store.module';
 
 
 @NgModule({
@@ -17,7 +18,9 @@ import {SharedModule} from "../../shared/shared.module";
   imports: [
     CommonModule,
     SharedModule,
-    PublicRoutingModule
+    PublicRoutingModule,
+    PublicStoreModule
   ]
 })
-export class PublicModule { }
+export class PublicModule {
+}

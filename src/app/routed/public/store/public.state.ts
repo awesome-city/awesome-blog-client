@@ -4,7 +4,7 @@ import {Paging} from "../../../models/paging";
 
 export const featureName = 'public';
 
-export interface State {
+export interface PublicState {
   /**
    * 選択記事
    */
@@ -36,7 +36,7 @@ export interface State {
   error?: any;
 }
 
-export const initialState: State = {
+export const initialState: PublicState = {
   article: undefined,
   tag: undefined,
   articles: {

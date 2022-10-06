@@ -1,11 +1,11 @@
 import {createAction, props} from "@ngrx/store";
 
-export const startLoading = createAction(
+export const loadingStartAction = createAction(
   '[Loading] start',
-  props<{ label: string, uniqueKey: string }>()
+  props<{ label: string }>()
 );
 
-export const endLoading = createAction(
+export const loadingEndAction = createAction(
   '[Loading] end',
-  props<{ label: string, uniqueKey: string }>()
+  props<{ label: string }>()
 );

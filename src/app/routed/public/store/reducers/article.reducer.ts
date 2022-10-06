@@ -9,7 +9,7 @@ import {
   loadMoreArticlesSuccessAction
 } from '../actions/article.action';
 
-export const reducer = createReducer(
+export const articleReducer = createReducer(
   initialState,
   on(loadArticlesAction, (state, {}) => ({
     ...state, articles: {
