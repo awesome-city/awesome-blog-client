@@ -24,6 +24,7 @@ import {ArticleService} from "./service/rest/article/article.service";
     HttpClientModule
   ],
   providers: [
+    HttpClientModule,
     ArticleService
   ],
   bootstrap: [AppComponent]
