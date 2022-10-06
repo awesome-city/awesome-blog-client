@@ -34,7 +34,7 @@ export const loadArticlesFailureAction = createAction(
 
 export const loadMoreArticlesAction = createAction(
   '[Article] load more',
-  props<{ limit?: number }>()
+  props<{ limit?: number, lastEvaluatedKey: string }>()
 );
 
 export const loadMoreArticlesSuccessAction = createAction(

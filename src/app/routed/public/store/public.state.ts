@@ -29,13 +29,19 @@ export interface State {
    * タグ一覧
    */
   tags: Tag[];
+
+  /**
+   * エラー
+   */
+  error?: any;
 }
 
 export const initialState: State = {
   article: undefined,
   tag: undefined,
   articles: {
-    list: []
+    list: [],
+    loading: false
   },
   articlesByTag: {},
   tags: []

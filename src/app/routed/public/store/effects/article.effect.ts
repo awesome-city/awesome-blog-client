@@ -2,13 +2,19 @@ import {Injectable} from "@angular/core";
 import {Actions, ofType} from "@ngrx/effects";
 import {
   ArticleAction,
-  loadArticleAction, loadArticleFailureAction,
+  loadArticleAction,
+  loadArticleFailureAction,
   loadArticlesAction,
   loadArticlesFailureAction,
-  loadArticlesSuccessAction, loadArticleSuccessAction
+  loadArticlesSuccessAction,
+  loadArticleSuccessAction,
+  loadMoreArticlesAction,
+  loadMoreArticlesFailureAction,
+  loadMoreArticlesSuccessAction
 } from "../actions/article.action";
 import {catchError, map, of, switchMap} from "rxjs";
 import {ArticleService} from "../../../../service/rest/article/article.service";
+import {resultMemoize} from '@ngrx/store';
 
 @Injectable()
 export class ArticleEffect {
@@ -34,6 +40,14 @@ export class ArticleEffect {
       catchError(error => of(loadArticlesFailureAction({error})))
     ))
   );
+
+  loadAllMore = this.actions$.pipe(
+    ofType(loadMoreArticlesAction),
+    switchMap(({limit, lastEvaluatedKey}) => this.articleService.findAll(limit, lastEvaluatedKey).pipe(
+      map(result => loadMoreArticlesSuccessAction({result})),
+      catchError(error => of(loadMoreArticlesFailureAction({error})))
+    ))
+  )
 
 
 
