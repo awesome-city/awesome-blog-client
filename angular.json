@@ -78,6 +78,10 @@
               "browserTarget": "awesome-blog-client:build:development"
             }
           },
+          "options": {
+            "hmr": true,
+            "watch": true
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {

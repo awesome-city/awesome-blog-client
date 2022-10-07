@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { PublicState, featureName } from '../public.state';
 
-const getState = createFeatureSelector<PublicState>(featureName);
+export const getState = createFeatureSelector<PublicState>(featureName);
 
 export const getCurrentArticleSelector = createSelector(getState, state => state.article);
 export const getCurrentTagSelector = createSelector(getState, state => state.tag);

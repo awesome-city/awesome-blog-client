@@ -7,6 +7,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {HttpClientModule} from "@angular/common/http";
 import {ArticleService} from "./service/rest/article/article.service";
+import {AppStoreModule} from "./store/app-store.module";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {ArticleService} from "./service/rest/article/article.service";
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    HttpClientModule
+    HttpClientModule,
+    AppStoreModule
   ],
   providers: [
     ArticleService

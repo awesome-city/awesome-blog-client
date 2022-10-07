@@ -6,7 +6,7 @@ import {loadingReducer} from './reducers/loading.reducer';
 
 @NgModule({
   imports: [
-    StoreModule.forRoot([loadingReducer], {metaReducers: metaReducer}),
+    StoreModule.forRoot(loadingReducer, {metaReducers: metaReducer}),
     EffectsModule.forRoot([])
   ]
 })

@@ -43,12 +43,12 @@ export interface Article {
   /**
    * 公開日
    */
-  publishAt: Date;
+  publishAt: string;
 
   /**
    * 更新日
    */
-  updateAt?: Date;
+  updateAt?: string;
 
   /**
    * 著者
