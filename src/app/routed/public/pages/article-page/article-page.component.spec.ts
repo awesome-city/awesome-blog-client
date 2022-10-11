@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ArticlePageComponent} from './article-page.component';
 import {provideMockStore} from "@ngrx/store/testing";
+import {ActivatedRoute} from "@angular/router";
 
 describe('ArticlePageComponent', () => {
   let component: ArticlePageComponent;
@@ -10,6 +11,7 @@ describe('ArticlePageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ArticlePageComponent],
+      imports: [ActivatedRoute],
       providers: [provideMockStore({})]
     })
       .compileComponents();
