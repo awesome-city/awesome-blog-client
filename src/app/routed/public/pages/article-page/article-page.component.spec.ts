@@ -3,6 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ArticlePageComponent} from './article-page.component';
 import {provideMockStore} from "@ngrx/store/testing";
 import {ActivatedRoute} from "@angular/router";
+import {of} from "rxjs";
 
 describe('ArticlePageComponent', () => {
   let component: ArticlePageComponent;
@@ -11,8 +12,12 @@ describe('ArticlePageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ArticlePageComponent],
-      imports: [ActivatedRoute],
-      providers: [provideMockStore({})]
+      providers: [provideMockStore({}), {
+        provide: ActivatedRoute,
+        useValue: {
+          params: of({id: 123})
+        }
+      }]
     })
       .compileComponents();
 
