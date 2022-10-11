@@ -1,8 +1,5 @@
 <p>article-page works!</p>
 
-<span>{{article$ | async | json}}1</span>
-
 <div *ngIf="article$ | async as article">
-  2
   <span>{{article | json}}</span>
 </div>

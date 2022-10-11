@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {Article} from "../../../../models/article";
-import {Paging} from "../../../../models/paging";
+import {Paging} from "../../../../models/common/paging";
 
 export const loadArticlesByTag = createAction(
   '[Article] load',
@@ -29,3 +29,7 @@ export const loadMoreArticlesByTagSuccess = createAction(
 export const loadMoreArticleByTagFailure = createAction(
   '[Article] load more - Failure'
 );
+
+// export const navigateArtickesByTagAction = createAction(
+//
+// )

@@ -1,29 +1,22 @@
 import {Article} from "../../../models/article";
 import {Tag} from "../../../models/tag";
-import {Paging} from "../../../models/paging";
+import {Paging} from "../../../models/common/paging";
 
 export const featureName = 'public';
 
-export interface PublicState {
-  /**
-   * 選択記事
-   */
-  article?: Article;
+export type ArticlePagingEntity = Paging<Article>;
 
-  /**
-   * 選択タグ
-   */
-  tag?: Tag;
+export interface PublicState {
 
   /**
    * 記事一覧
    */
-  articles: Paging<Article>;
+  articles: ArticlePagingEntity;
 
   /**
    * タグ別記事一覧
    */
-  articlesByTag: { [key: string]: Paging<Article> }
+  articlesByTag: Map<string, ArticlePagingEntity>;
 
   /**
    * タグ一覧
@@ -37,12 +30,10 @@ export interface PublicState {
 }
 
 export const initialState: PublicState = {
-  article: undefined,
-  tag: undefined,
   articles: {
-    list: [],
-    loading: false
+    ids: [],
+    entities: new Map<string, Article>()
   },
-  articlesByTag: {},
+  articlesByTag: new Map<string, ArticlePagingEntity>(),
   tags: []
 };

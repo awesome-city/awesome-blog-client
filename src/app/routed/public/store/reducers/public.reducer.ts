@@ -1,52 +1,46 @@
 import {createReducer, on} from '@ngrx/store';
 import {initialState} from '../public.state';
-import {
-  loadArticleFailureAction, loadArticlesAction,
-  loadArticlesFailureAction,
-  loadArticlesSuccessAction,
-  loadArticleSuccessAction, loadMoreArticlesAction,
-  loadMoreArticlesFailureAction,
-  loadMoreArticlesSuccessAction
-} from '../actions/article.action';
+import {ArticleAction} from "../actions/article.action";
+import {Article} from "../../../../models/article";
 
 export const publicReducer = createReducer(
   initialState,
-  on(loadArticlesAction, (state, {}) => ({
+  on(ArticleAction.loadSuccess, (state, {result}) => ({
     ...state, articles: {
-      list: state.articles.list,
-      lastEvaluatedKey: state.articles.lastEvaluatedKey,
-      loading: true
+      ids: result.list.map(o => o.id),
+      entities: new Map<string, Article>(Object.entries(result.list.reduce((res, cur) => ({...res, [cur.id]: cur}), {}))),
+      lastEvaluatedKey: result.lastEvaluatedKey
     }
   })),
-  on(loadArticlesSuccessAction, (state, {result}) => ({
+  on(ArticleAction.loadFailure, (state, {error}) => ({
+    ...state, error: error
+  })),
+  on(ArticleAction.loadMoreSuccess, (state, {result}) => ({
     ...state, articles: {
-      list: result.list,
-      lastEvaluatedKey: result.lastEvaluatedKey,
-      loading: false
+      ids: [...state.articles.ids, ...result.list.map(o => o.id)],
+      entities: new Map([
+        ...state.articles.entities,
+        ...new Map<string, Article>(Object.entries(result.list.reduce((res, cur) => ({...res, [cur.id]: cur}), {})))
+      ]),
+      lastEvaluatedKey: result.lastEvaluatedKey
     }
   })),
-  on(loadArticlesFailureAction, (state, {error}) => ({
-    ...state, articles: {
-      list: state.articles.list,
-      lastEvaluatedKey: state.articles.lastEvaluatedKey,
-      loading: false
-    }, error: error
+  on(ArticleAction.loadMoreFailure, (state, {error}) => ({
+    ...state, error: error
   })),
-  on(loadMoreArticlesAction, (state, {}) => ({
-    ...state, articles: {
-      list: state.articles.list,
-      lastEvaluatedKey: state.articles.lastEvaluatedKey,
-      loading: true
+  on(ArticleAction.loadOneSuccess, (state, {result}) => {
+    if (result) {
+      return ({
+        ...state, articles: ({
+          ...state.articles,
+          entities: new Map([...state.articles.entities.entries(), [result.id, result]])
+        })
+      });
+    } else {
+      return state;
     }
+  }),
+  on(ArticleAction.loadOneFailure, (state, {error}) => ({
+    ...state, error: error
   })),
-  on(loadMoreArticlesSuccessAction, (state, {result}) => ({
-    ...state, articles: {
-      list: [...state.articles.list, ...result.list],
-      lastEvaluatedKey: result.lastEvaluatedKey,
-      loading: false
-    }
-  })),
-  on(loadMoreArticlesFailureAction, (state, {error}) => ({...state, error: error})),
-  on(loadArticleSuccessAction, (state, {result}) => ({...state, article: result})),
-  on(loadArticleFailureAction, (state, {error}) => ({...state, error: error})),
 );

@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TopPageComponent } from './top-page.component';
+import {TopPageComponent} from './top-page.component';
+import {provideMockStore} from "@ngrx/store/testing";
 
 describe('TopPageComponent', () => {
   let component: TopPageComponent;
@@ -8,9 +9,10 @@ describe('TopPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TopPageComponent ]
+      declarations: [TopPageComponent],
+      providers: [provideMockStore({})]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(TopPageComponent);
     component = fixture.componentInstance;
