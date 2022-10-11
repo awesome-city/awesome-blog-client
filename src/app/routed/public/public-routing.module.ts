@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'articles',
     children: [
       {
-        path: ':name',
+        path: ':id',
         component: ArticlePageComponent
       }
     ]
@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'tags',
     children: [
       {
-        path: ':name',
+        path: ':id',
         component: TagPageComponent
       }
     ]

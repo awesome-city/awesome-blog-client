@@ -1,17 +1,17 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {catchError, of, switchMap, withLatestFrom} from "rxjs";
+import {catchError, distinctUntilChanged, empty, filter, Observable, of, switchMap, withLatestFrom} from "rxjs";
 import {ArticleService} from "../../../../service/rest/article/article.service";
-import {Action, select, Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {loadingEndAction, loadingStartAction} from '../../../../store/actions/loading.action';
-import {getArticlesMapSelector} from '../selectors/article.selector';
+import {getArticlesLastEvaluatedKey, getArticlesMapSelector, getArticlesSelector} from '../selectors/article.selector';
 import {ArticleAction} from "../actions/article.action";
 
 @Injectable()
 export class ArticleEffect {
 
   constructor(
-    private actions$: Actions<Action>,
+    private actions$: Actions,
     private articleService: ArticleService,
     private store: Store
   ) {
@@ -42,7 +42,9 @@ export class ArticleEffect {
 
   loadAll$ = createEffect(() => this.actions$.pipe(
     ofType(ArticleAction.load),
-    switchMap((action) => {
+    withLatestFrom(this.store.pipe(select(getArticlesSelector))),
+    filter(([action, articles]) => (!!action.reload || (!!articles && articles.length === 0))),
+    switchMap(([action, articles]) => {
       const label = `article_load_all`;
       this.store.dispatch(loadingStartAction({label}));
       return this.articleService.findAll(action.limit).pipe(
@@ -60,7 +62,10 @@ export class ArticleEffect {
 
   loadAllMore$ = createEffect(() => this.actions$.pipe(
     ofType(ArticleAction.loadMore),
-    switchMap(({limit, lastEvaluatedKey}) => {
+    withLatestFrom(this.store.pipe(select(getArticlesLastEvaluatedKey))),
+    // if lastEvaluatedKey is same value, stop stream
+    distinctUntilChanged((previous, current) => previous[1] !== current[1]),
+    switchMap(([{limit}, lastEvaluatedKey]) => {
       const label = `article_load_more_${lastEvaluatedKey}`;
       this.store.dispatch(loadingStartAction({label}));
       return this.articleService.findAll(limit, lastEvaluatedKey).pipe(

@@ -8,23 +8,32 @@ export const publicReducer = createReducer(
   on(ArticleAction.loadSuccess, (state, {result}) => ({
     ...state, articles: {
       ids: result.list.map(o => o.id),
-      entities: new Map<string, Article>(Object.entries(result.list.reduce((res, cur) => ({...res, [cur.id]: cur}), {}))),
+      entities: new Map<string, Article>(Object.entries(result.list.reduce((res, cur) => ({
+        ...res,
+        [cur.id]: cur
+      }), {}))),
       lastEvaluatedKey: result.lastEvaluatedKey
     }
   })),
   on(ArticleAction.loadFailure, (state, {error}) => ({
     ...state, error: error
   })),
-  on(ArticleAction.loadMoreSuccess, (state, {result}) => ({
-    ...state, articles: {
-      ids: [...state.articles.ids, ...result.list.map(o => o.id)],
-      entities: new Map([
-        ...state.articles.entities,
-        ...new Map<string, Article>(Object.entries(result.list.reduce((res, cur) => ({...res, [cur.id]: cur}), {})))
-      ]),
-      lastEvaluatedKey: result.lastEvaluatedKey
+  on(ArticleAction.loadMoreSuccess, (state, {result}) => {
+    if (result.lastEvaluatedKey !== state.articles.lastEvaluatedKey) {
+      return ({
+        ...state, articles: {
+          ids: [...state.articles.ids, ...result.list.map(o => o.id)],
+          entities: new Map([
+            ...state.articles.entities,
+            ...new Map<string, Article>(Object.entries(result.list.reduce((res, cur) => ({...res, [cur.id]: cur}), {})))
+          ]),
+          lastEvaluatedKey: result.lastEvaluatedKey
+        }
+      });
+    } else {
+      return state;
     }
-  })),
+  }),
   on(ArticleAction.loadMoreFailure, (state, {error}) => ({
     ...state, error: error
   })),
