@@ -2,7 +2,6 @@
  * サイト
  */
 export interface Site {
-
   /**
    * サイトタイトル
    */

@@ -1,4 +1,4 @@
-import {ActionReducer, MetaReducer} from '@ngrx/store';
+import { ActionReducer, MetaReducer } from '@ngrx/store';
 
 const debug = (reducer: ActionReducer<any>): ActionReducer<any> => {
   return (state, action) => {
@@ -6,7 +6,7 @@ const debug = (reducer: ActionReducer<any>): ActionReducer<any> => {
     console.debug('action', action);
 
     return reducer(state, action);
-  }
-}
+  };
+};
 
 export const metaReducer: MetaReducer<any>[] = [debug];

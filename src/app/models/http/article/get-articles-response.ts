@@ -1,6 +1,6 @@
-import {Article} from "../../article";
+import { Article } from '../../article';
 
 export interface GetArticlesResponse {
-  list: Article[],
-  lastEvaluatedKey?: string
+  list: Article[];
+  lastEvaluatedKey?: string;
 }

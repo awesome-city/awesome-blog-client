@@ -1,8 +1,7 @@
-import {Author} from "../models/author";
-import {Site} from "../models/site";
+import { Author } from '../models/author';
+import { Site } from '../models/site';
 
 export interface State {
-
   /**
    * ローディング状態
    */
@@ -22,5 +21,5 @@ export interface State {
 export const initialState: State = {
   loading: new Set<string>(),
   site: undefined,
-  author: undefined
+  author: undefined,
 };

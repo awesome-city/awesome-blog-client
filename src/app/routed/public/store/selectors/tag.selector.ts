@@ -4,4 +4,4 @@ import { PublicState, featureName } from '../public.state';
 
 const getState = createFeatureSelector<PublicState>(featureName);
 
-export const getTags = createSelector(getState, state => state.tags);
+export const getTags = createSelector(getState, (state) => state.tags);

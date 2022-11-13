@@ -1,4 +1,4 @@
 export interface Entity<T> {
-  ids: string[],
+  ids: string[];
   entities: Map<string, T>;
 }

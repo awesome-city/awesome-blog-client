@@ -2,7 +2,6 @@
  * タグ
  */
 export interface Tag {
-
   /**
    * タグID
    */

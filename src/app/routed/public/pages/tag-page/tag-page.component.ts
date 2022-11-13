@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-tag-page',
   templateUrl: './tag-page.component.html',
-  styleUrls: ['./tag-page.component.scss']
+  styleUrls: ['./tag-page.component.scss'],
 })
-export class TagPageComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class TagPageComponent {
+  constructor() {}
 }

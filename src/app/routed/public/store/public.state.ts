@@ -1,13 +1,12 @@
-import {Article} from "../../../models/article";
-import {Tag} from "../../../models/tag";
-import {Paging} from "../../../models/common/paging";
+import { Article } from '../../../models/article';
+import { Tag } from '../../../models/tag';
+import { Paging } from '../../../models/common/paging';
 
 export const featureName = 'public';
 
 export type ArticlePagingEntity = Paging<Article>;
 
 export interface PublicState {
-
   /**
    * 記事一覧
    */
@@ -32,8 +31,8 @@ export interface PublicState {
 export const initialState: PublicState = {
   articles: {
     ids: [],
-    entities: new Map<string, Article>()
+    entities: new Map<string, Article>(),
   },
   articlesByTag: new Map<string, ArticlePagingEntity>(),
-  tags: []
+  tags: [],
 };

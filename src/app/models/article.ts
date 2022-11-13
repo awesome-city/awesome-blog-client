@@ -1,5 +1,5 @@
-import {Tag} from "./tag";
-import {Author} from "./author";
+import { Tag } from './tag';
+import { Author } from './author';
 
 /**
  * 記事
@@ -54,5 +54,4 @@ export interface Article {
    * 著者
    */
   author: Author;
-
 }

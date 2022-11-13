@@ -2,7 +2,6 @@
  * 著者
  */
 export interface Author {
-
   /**
    * ID
    */
@@ -22,5 +21,4 @@ export interface Author {
    * プロフィール
    */
   profile: string;
-
 }
