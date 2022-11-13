@@ -28,16 +28,35 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/awesome-blog-client'),
       subdir: '.',
       reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
-      ]
+        {type: 'html'},
+        {type: 'text-summary'}
+      ],
+      check: {
+        global: {
+          statements: 80,
+          branches: 80,
+          functions: 80,
+          lines: 80
+        }
+      }
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chromium',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          '--remote-debugging-port=9222'
+        ]
+      }
+    },
     singleRun: false,
     restartOnFileChange: true
   });

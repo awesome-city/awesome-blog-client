@@ -1,0 +1,9 @@
+<p>top-page works!</p>
+
+--
+<ul *ngIf="articles$ | async as articles">
+  <li *ngFor="let article of articles">
+    <a [routerLink]="['articles', article?.id]">{{ article?.title }}</a>
+    {{ article | json }}
+  </li>
+</ul>

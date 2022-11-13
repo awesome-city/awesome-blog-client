@@ -5,11 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
+import { ArticleService } from './service/rest/article/article.service';
+import { AppStoreModule } from './store/app-store.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -17,10 +18,12 @@ import { environment } from '../environments/environment';
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    })
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
+    HttpClientModule,
+    AppStoreModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ArticleService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
