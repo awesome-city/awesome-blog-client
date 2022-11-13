@@ -1,0 +1,48 @@
+name: Build
+on:
+  push:
+    branches:
+      - master
+      - release
+      - develop
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yaml
+
+  build:
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Setup .npmrc file to publish to GitHub Packages
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+
+      - uses: actions/cache@v3
+        id: node_modules_cache_id
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install
+        if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: awesome-blog-client
+          path: dist
+
+# TODO
+#  deploy:
+#    runs-on: ubuntu-latest

@@ -4,12 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --watch",
-    "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --no-watch --no-progress",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCustom",
+    "build": "ng build"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^14.2.0",
     "@angular/common": "^14.2.0",
@@ -20,11 +19,11 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "@angular/service-worker": "^14.2.0",
+    "@awesome-city/angular-cmn": "^0.0.2-6",
+    "@awesome-city/js-cmn": "^0.1.0-1",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
     "@ngrx/store-devtools": "^14.3.2",
-    "@taigacat/angular-cmn": "^0.0.2-2",
-    "@taigacat/js-cmn": "^0.0.1-5",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
