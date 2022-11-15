@@ -51,12 +51,25 @@ jobs:
     needs:
       - upload-module
     runs-on: ubuntu-latest
+    outputs:
+      build-version: ${{ steps.Tag.outputs.build-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Push Tag
+      - id: Tag
+        name: Push Tag
         run: |
           echo ${{ needs.upload-module.outputs.build-version}}
           git tag ${{ needs.upload-module.outputs.build-version}}
           git push origin ${{ needs.upload-module.outputs.build-version}}
+          echo "build-version=${{ needs.upload-module.outputs.build-version}}" >> $GITHUB_OUTPUT
+
+  deploy-development:
+    needs:
+      - tag
+    uses: ./.github/workflows/deployment.yaml
+    environment: develop
+    with:
+      environment: develop
+      build-version: ${{ needs.tag.outputs.build-version }}
