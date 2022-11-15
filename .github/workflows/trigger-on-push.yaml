@@ -8,9 +8,13 @@ jobs:
   test:
     uses: ./.github/workflows/test.yaml
 
+  codeQL:
+    uses: ./.github/workflows/codeql.yaml
+
   build:
     needs:
       - test
+      - codeql
     uses: ./.github/workflows/build.yaml
 
   upload-module:
