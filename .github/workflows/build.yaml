@@ -84,6 +84,7 @@ jobs:
   tag:
     needs:
       - upload-module
+      - build-version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -91,5 +92,5 @@ jobs:
 
       - name: Push Tag
         run: |
-          git tag ${{ env.BUILD_VERSION }}
-          git push origin ${{ env.BUILD_VERSION }}
+          git tag ${{ needs.build-version.outputs.BUILD_VERSION}}
+          git push origin ${{ needs.build-version.outputs.BUILD_VERSION}}
