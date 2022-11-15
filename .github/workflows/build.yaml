@@ -47,11 +47,12 @@ jobs:
 
   build-version:
     runs-on: ubuntu-latest
+    outputs:
+      BUILD_VERSION: ${{ steps.BuildVersion.outputs.BUILD_VERSION }}
     steps:
-      - name: BuildVersion
-        run: echo "BUILD_VERSION=v$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-      - name: Echo BuildVersion
-        run: echo BUILD_VERSION=${{ env.BUILD_VERSION }}
+      - id: BuildVersion
+        name: BuildVersion
+        run: echo "BUILD_VERSION=v$(date +"%Y%m%d%H%M")" >> $GITHUB_OUTPUT
 
   upload-module:
     needs:
@@ -75,9 +76,10 @@ jobs:
 
       - name: Upload
         run: |
-          aws s3 cp -R \
+          aws s3 cp \
           ./awesome-blog-client/* \
-          s3://awesome-cmn-mdl/artifact/blog/client/${{ env.BUILD_VERSION }}/
+          s3://awesome-cmn-mdl/artifact/blog/client/${{ needs.build-version.outputs.BUILD_VERSION}}/ \
+          --recursive
 
   tag:
     needs:
