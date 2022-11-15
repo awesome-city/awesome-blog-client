@@ -43,22 +43,6 @@ jobs:
           echo "TODO"
           exit 1
 
-  lambda-version:
-    needs:
-      - create-lambda
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - run: |
-          echo "TODO"
-          exit 1
-
   deploy:
     needs:
       - upload-static-files
@@ -76,19 +60,3 @@ jobs:
       - run: |
           echo "TODO"
           exit 1
-
-  # TODO e2e test
-
-  tag:
-    needs:
-      - deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - id: Tag
-        name: Push Tag
-        run: |
-          git tag ${{ inputs.environment }}
-          git push origin ${{ inputs.environment }}

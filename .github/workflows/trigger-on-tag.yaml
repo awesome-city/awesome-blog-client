@@ -1,0 +1,22 @@
+name: Build
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-version:
+    runs-on: ubuntu-latest
+    outputs:
+      build-version: ${{ steps.TagName.outputs.build-version }}
+    steps:
+      - id: TagName
+        run: echo "build-version=${REF##*/}" >> $GITHUB_OUTPUT
+
+  deploy-development:
+    needs:
+      - build-version
+    uses: ./.github/workflows/deployment.yaml
+    with:
+      environment: develop
+      build-version: ${{ needs.build-version.outputs.build-version }}

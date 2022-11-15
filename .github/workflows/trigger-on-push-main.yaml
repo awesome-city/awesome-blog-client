@@ -56,6 +56,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.OWNER_PAT }}
 
       - id: Tag
         name: Push Tag
@@ -64,11 +66,3 @@ jobs:
           git tag ${{ needs.upload-module.outputs.build-version}}
           git push origin ${{ needs.upload-module.outputs.build-version}}
           echo "build-version=${{ needs.upload-module.outputs.build-version}}" >> $GITHUB_OUTPUT
-
-  deploy-development:
-    needs:
-      - tag
-    uses: ./.github/workflows/deployment.yaml
-    with:
-      environment: dev
-      build-version: ${{ needs.tag.outputs.build-version }}
