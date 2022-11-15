@@ -40,6 +40,7 @@ jobs:
 
       - name: Upload
         run: |
+          ${{ needs.build.outputs.build-version}}
           aws s3 cp \
           ./awesome-blog-client/ \
           s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ needs.build.outputs.build-version}}/ \
@@ -56,5 +57,6 @@ jobs:
 
       - name: Push Tag
         run: |
+          echo ${{ needs.upload-module.outputs.build-version}}
           git tag ${{ needs.upload-module.outputs.build-version}}
           git push origin ${{ needs.upload-module.outputs.build-version}}
