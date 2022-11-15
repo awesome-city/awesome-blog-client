@@ -38,7 +38,8 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Upload
+      - id: Upload
+        name: Upload
         run: |
           echo ${{ needs.build.outputs.build-version}}
           aws s3 cp \

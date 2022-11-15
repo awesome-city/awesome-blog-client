@@ -23,4 +23,3 @@ jobs:
       environment: develop
       build-version: ${{ needs.build-version.outputs.build-version }}
 
-  # TODO e2e test
