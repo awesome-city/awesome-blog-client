@@ -23,8 +23,8 @@ jobs:
       - name: Copy static files
         run: |
           awe s3 cp \
-          ${{ env.S3_MODULE_PATH }}${{ inputs.build-version }}/sr/ \
-          ${{ env.S3_WEB_PATH }}${{ inputs.build-version }} \
+          s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
+          s3://${{ secrets.S3_BUCKET_BLOG_WEB }}/dev/sr/${{ inputs.build-version }} \
           --recursive
 
   create-index-lambda:

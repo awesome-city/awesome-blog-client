@@ -1,4 +1,4 @@
-name: Test
+name: Trigger on push (not main)
 on:
   push:
     branches:

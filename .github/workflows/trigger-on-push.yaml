@@ -1,4 +1,4 @@
-name: Build
+name: Trigger on push main
 on:
   push:
     branches:
@@ -14,16 +14,18 @@ jobs:
   build:
     needs:
       - test
-      - codeql
     uses: ./.github/workflows/build.yaml
 
   upload-module:
     needs:
       - build
+      - codeql
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
+    outputs:
+      build-version: ${{ steps.Upload.outputs.build-version }}
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v3
@@ -40,13 +42,13 @@ jobs:
         run: |
           aws s3 cp \
           ./awesome-blog-client/ \
-          s3://awesome-cmn-mdl/artifact/blog/client/${{ needs.build.outputs.build-version}}/ \
+          s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ needs.build.outputs.build-version}}/ \
           --recursive
+          echo "build-version=${{ needs.build.outputs.build-version}}" >> $GITHUB_OUTPUT
 
   tag:
     needs:
       - upload-module
-      - build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -54,5 +56,5 @@ jobs:
 
       - name: Push Tag
         run: |
-          git tag ${{ needs.build.outputs.build-version}}
-          git push origin ${{ needs.build.outputs.build-version}}
+          git tag ${{ needs.upload-module.outputs.build-version}}
+          git push origin ${{ needs.upload-module.outputs.build-version}}
