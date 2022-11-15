@@ -1,18 +1,16 @@
 name: Build
 on:
-  push:
-    branches:
-      - master
-      - release
-      - develop
+  workflow_call:
+    outputs:
+      artifact-name:
+        description: Name of artifact to upload
+        value: awesome-blog-client
+      build-version:
+        description: build date
+        value: ${{ jobs.build-version.outputs.build-version }}
 
 jobs:
-  test:
-    uses: ./.github/workflows/test.yaml
-
   build:
-    needs:
-      - test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,49 +46,8 @@ jobs:
   build-version:
     runs-on: ubuntu-latest
     outputs:
-      BUILD_VERSION: ${{ steps.BuildVersion.outputs.BUILD_VERSION }}
+      build-version: ${{ steps.BuildVersion.outputs.BUILD_VERSION }}
     steps:
       - id: BuildVersion
         name: BuildVersion
-        run: echo "BUILD_VERSION=v$(date +"%Y%m%d%H%M")" >> $GITHUB_OUTPUT
-
-  upload-module:
-    needs:
-      - build
-      - build-version
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: awesome-blog-client
-          path: .
-
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Upload
-        run: |
-          aws s3 cp \
-          ./awesome-blog-client/ \
-          s3://awesome-cmn-mdl/artifact/blog/client/${{ needs.build-version.outputs.BUILD_VERSION}}/ \
-          --recursive
-
-  tag:
-    needs:
-      - upload-module
-      - build-version
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Push Tag
-        run: |
-          git tag ${{ needs.build-version.outputs.BUILD_VERSION}}
-          git push origin ${{ needs.build-version.outputs.BUILD_VERSION}}
+        run: echo "build-version=v$(date +"%Y%m%d%H%M")" >> $GITHUB_OUTPUT

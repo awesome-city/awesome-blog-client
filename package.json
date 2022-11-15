@@ -7,7 +7,8 @@
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint",
     "test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCustom",
-    "build": "ng build"
+    "build": "ng build",
+    "create-index-lambda": "node ./lambda/create_lambda.js"
   },
   "dependencies": {
     "@angular/animations": "^14.2.0",

@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { ArticleService } from './service/rest/article/article.service';
 import { AppStoreModule } from './store/app-store.module';
+import {APP_BASE_HREF} from "@angular/common";
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,10 @@ import { AppStoreModule } from './store/app-store.module';
     HttpClientModule,
     AppStoreModule,
   ],
-  providers: [ArticleService],
+  providers: [
+    { provide: APP_BASE_HREF, useValue: '/' },
+    ArticleService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

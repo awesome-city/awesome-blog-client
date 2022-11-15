@@ -1,0 +1,53 @@
+name: Deploy
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      build-version:
+        required: true
+        type: string
+
+jobs:
+  upload-static-files:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Copy static files
+        run: |
+          awe s3 cp \
+          ${{ env.S3_MODULE_PATH }}${{ inputs.build-version }}/sr/ \
+          ${{ env.S3_WEB_PATH }}${{ inputs.build-version }} \
+          --recursive
+
+  create-index-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - run: |
+          echo "TODO"
+
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - run: |
+          echo "TODO"

@@ -1,0 +1,32 @@
+name: Deploy on tag pushed
+on:
+  push:
+    branches-ignore:
+      - '**'
+    tags:
+      - 'v*'
+
+env:
+  S3_MODULE_PATH: 's3://awesome-cmn-mdl/artifact/blog/client/'
+  S3_WEB_PATH: 's3://awesome-blog-web/dev/sr/'
+
+jobs:
+  build-version:
+    runs-on: ubuntu-latest
+    outputs:
+      build-version: ${{ steps.TagName }}
+    steps:
+      - id: TagName
+        run: echo "build-version=${REF##*/}" >> $GITHUB_OUTPUT
+
+  deploy-development:
+    needs:
+      - build-version
+    uses: ./.github/workflows/deployment.yaml
+    with:
+      environment: develop
+      build-version: ${{ needs.build-version.outputs.build-version }}
+
+  # TODO e2e test, create release,
+  #  on create release deploy staging,
+  #  on release published deploy production

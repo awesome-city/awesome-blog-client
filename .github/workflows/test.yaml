@@ -1,16 +1,5 @@
 name: Test
 on:
-  pull_request:
-    branches:
-      - master
-      - release
-      - develop
-  push:
-    branches:
-      - '**'
-      - '!master'
-      - '!release'
-      - '!develop'
   workflow_call:
 
 jobs:
