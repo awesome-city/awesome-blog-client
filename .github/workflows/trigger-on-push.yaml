@@ -11,6 +11,8 @@ jobs:
     uses: ./.github/workflows/test.yaml
 
   build:
+    needs:
+      - test
     uses: ./.github/workflows/build.yaml
 
   upload-module:

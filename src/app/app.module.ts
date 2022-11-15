@@ -8,7 +8,7 @@ import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { ArticleService } from './service/rest/article/article.service';
 import { AppStoreModule } from './store/app-store.module';
-import {APP_BASE_HREF} from "@angular/common";
+import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],

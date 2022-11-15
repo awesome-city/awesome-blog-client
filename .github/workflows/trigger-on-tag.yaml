@@ -1,8 +1,6 @@
 name: Deploy on tag pushed
 on:
   push:
-    branches-ignore:
-      - '**'
     tags:
       - 'v*'
 
