@@ -40,7 +40,7 @@ jobs:
 
       - name: Upload
         run: |
-          ${{ needs.build.outputs.build-version}}
+          echo ${{ needs.build.outputs.build-version}}
           aws s3 cp \
           ./awesome-blog-client/ \
           s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ needs.build.outputs.build-version}}/ \
