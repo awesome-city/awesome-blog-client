@@ -69,7 +69,6 @@ jobs:
     needs:
       - tag
     uses: ./.github/workflows/deployment.yaml
-    environment: develop
     with:
-      environment: develop
+      environment: dev
       build-version: ${{ needs.tag.outputs.build-version }}
