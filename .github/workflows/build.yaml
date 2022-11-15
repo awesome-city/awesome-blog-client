@@ -77,7 +77,7 @@ jobs:
       - name: Upload
         run: |
           aws s3 cp \
-          ./awesome-blog-client/* \
+          ./awesome-blog-client/ \
           s3://awesome-cmn-mdl/artifact/blog/client/${{ needs.build-version.outputs.BUILD_VERSION}}/ \
           --recursive
 
