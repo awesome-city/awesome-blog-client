@@ -6,6 +6,7 @@
     "start": "ng serve --watch",
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint",
+    "lint-fix": "ng lint --fix",
     "test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCustom",
     "build": "ng build",
     "create-index-lambda": "node ./lambda/create_lambda.js"

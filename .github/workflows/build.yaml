@@ -46,7 +46,7 @@ jobs:
   build-version:
     runs-on: ubuntu-latest
     outputs:
-      build-version: ${{ steps.BuildVersion.outputs.BUILD_VERSION }}
+      build-version: ${{ steps.BuildVersion.outputs.build-version }}
     steps:
       - id: BuildVersion
         name: BuildVersion

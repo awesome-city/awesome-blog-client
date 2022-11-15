@@ -29,6 +29,8 @@ jobs:
 
   create-index-lambda:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -37,12 +39,12 @@ jobs:
 
       - run: |
           echo "TODO"
+          exit 1
 
   deploy:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-    environment: ${{ inputs.environment }}
     steps:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -51,3 +53,4 @@ jobs:
 
       - run: |
           echo "TODO"
+          exit 1

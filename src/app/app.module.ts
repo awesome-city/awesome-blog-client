@@ -24,10 +24,7 @@ import { APP_BASE_HREF } from '@angular/common';
     HttpClientModule,
     AppStoreModule,
   ],
-  providers: [
-    { provide: APP_BASE_HREF, useValue: '/' },
-    ArticleService
-  ],
+  providers: [{ provide: APP_BASE_HREF, useValue: '/' }, ArticleService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

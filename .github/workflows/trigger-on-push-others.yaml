@@ -3,9 +3,7 @@ on:
   push:
     branches:
       - '**'
-      - '!master'
-      - '!release'
-      - '!develop'
+      - '!main'
 
 jobs:
   test:

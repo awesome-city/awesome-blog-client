@@ -12,7 +12,7 @@ jobs:
   build-version:
     runs-on: ubuntu-latest
     outputs:
-      build-version: ${{ steps.TagName }}
+      build-version: ${{ steps.TagName.outputs.build-version }}
     steps:
       - id: TagName
         run: echo "build-version=${REF##*/}" >> $GITHUB_OUTPUT
@@ -21,10 +21,11 @@ jobs:
     needs:
       - build-version
     uses: ./.github/workflows/deployment.yaml
+    environment: develop
     with:
       environment: develop
       build-version: ${{ needs.build-version.outputs.build-version }}
 
-  # TODO e2e test, create release,
+  # TODO e2e test
   #  on create release deploy staging,
   #  on release published deploy production
