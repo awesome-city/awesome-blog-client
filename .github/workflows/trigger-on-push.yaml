@@ -19,7 +19,6 @@ jobs:
   upload-module:
     needs:
       - build
-      - codeql
     runs-on: ubuntu-latest
     permissions:
       id-token: write
