@@ -9,12 +9,32 @@ on:
         required: true
         type: string
 
+permissions:
+  id-token: write
+  content: read
+
 jobs:
-  create-lambda:
+  upload-static-files:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      content: read
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Copy static files
+        run: |
+          echo ${{ inputs.build-version }}
+
+          awe s3 cp \
+          s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
+          s3://${{ secrets.S3_BUCKET_BLOG_WEB }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
+          --recursive
+
+  create-lambda:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -40,9 +60,8 @@ jobs:
     needs:
       - create-lambda
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      content: read
+    outputs:
+      FrontPageFunctionVersionNum: ${{ steps.cloudformation.outputs.FrontPageFunctionVersionNum }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -52,45 +71,42 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - run: |
-          echo "TODO"
-          exit 1
-
-  upload-static-files:
-    needs:
-      - create-lambda
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
-      - uses: aws-actions/configure-aws-credentials@v1
+      - id: cloudformation
+        name: AWS CloudFormation "Create lambda version stack"
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Copy static files
-        run: |
-          echo ${{ inputs.build-version }}
-
-          awe s3 cp \
-          s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
-          s3://${{ secrets.S3_BUCKET_BLOG_WEB }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
-          --recursive
+          name: 'awesome-blog-${{ inputs.environment }}-front-lambda-version-${{ inputs.build-version }}'
+          template: ./cfn/template/awesome-blog-front-lambda-version.template.yaml
+          no-fail-on-empty-changeset: "1"
+          parameter-overrides: >-
+            ServiceName=awesome-blog,
+            Environment=${{ inputs.environment }}
 
   deploy:
     needs:
       - upload-static-files
-      - create-lambda
+      - create-lambda-version
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
     environment: ${{ inputs.environment }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - run: |
-          echo "TODO"
-          exit 1
+      - name: AWS CloudFormation "Upload lambda alias"
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+        with:
+          name: 'awesome-blog-${{ inputs.environment }}-front-lambda-alias'
+          template: ./cfn/template/awesome-blog-front-lambda-alias.template.yaml
+          no-fail-on-empty-changeset: "1"
+          parameter-overrides: >-
+            ServiceName=awesome-blog,
+            Environment=${{ inputs.environment }},
+            FunctionAlias=live,
+            FrontPageFunctionVersion=${{ needs.create-lambda-version.FrontPageFunctionVersionNum }}
+
+

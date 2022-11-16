@@ -16,15 +16,6 @@ Parameters:
   FrontPageFunctionVersion:
     Type: String
 
-Mappings:
-  LambdaMap:
-    dev:
-      ProvisionedConcurrency: 5
-    stg:
-      ProvisionedConcurrency: 20
-    prd:
-      ProvisionedConcurrency: 20
-
 Resources:
   FrontPageFunctionAlias:
     Type: AWS::Lambda::Alias
@@ -32,5 +23,3 @@ Resources:
       FunctionName: !Join [ '-', [ !Ref ServiceName, !Ref Environment, 'front-page' ] ]
       FunctionVersion: !Ref FrontPageFunctionVersion
       Name: !Ref FunctionAlias
-      ProvisionedConcurrencyConfig:
-        ProvisionedConcurrentExecutions: !FindInMap [ 'LambdaMap', !Ref Environment, 'ProvisionedConcurrency' ]
