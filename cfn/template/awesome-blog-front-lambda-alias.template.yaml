@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description:
+
+Parameters:
+  ServiceName:
+    Type: String
+    Default: 'awesome-blog'
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - stg
+      - prd
+  FunctionAlias:
+    Type: String
+  FrontPageFunctionVersion:
+    Type: String
+
+Mappings:
+  LambdaMap:
+    dev:
+      ProvisionedConcurrency: 5
+    stg:
+      ProvisionedConcurrency: 20
+    prd:
+      ProvisionedConcurrency: 20
+
+Resources:
+  FrontPageFunctionAlias:
+    Type: AWS::Lambda::Alias
+    Properties:
+      FunctionName: !Join [ '-', [ !Ref ServiceName, !Ref Environment, 'front-page' ] ]
+      FunctionVersion: !Ref FrontPageFunctionVersion
+      Name: !Ref FunctionAlias
+      ProvisionedConcurrencyConfig: !FindInMap [ 'LambdaMap', !Ref Environment, 'ProvisionedConcurrency' ]

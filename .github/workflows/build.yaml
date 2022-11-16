@@ -54,3 +54,32 @@ jobs:
       - id: BuildVersion
         name: BuildVersion
         run: echo "build-version=v$(date +"%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+
+  upload-module:
+    needs:
+      - build
+      - build-version
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: awesome-blog-client
+          path: ./awesome-blog-client
+
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - id: Upload
+        name: Upload
+        run: |
+          echo ${{ needs.build.outputs.build-version}}
+          aws s3 cp \
+          ./awesome-blog-client/ \
+          s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ needs.build-version.outputs.build-version}}/ \
+          --recursive

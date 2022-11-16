@@ -16,40 +16,9 @@ jobs:
       - test
     uses: ./.github/workflows/build.yaml
 
-  upload-module:
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    outputs:
-      build-version: ${{ steps.Upload.outputs.build-version }}
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: awesome-blog-client
-          path: ./awesome-blog-client
-
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - id: Upload
-        name: Upload
-        run: |
-          echo ${{ needs.build.outputs.build-version}}
-          aws s3 cp \
-          ./awesome-blog-client/ \
-          s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ needs.build.outputs.build-version}}/ \
-          --recursive
-          echo "build-version=${{ needs.build.outputs.build-version}}" >> $GITHUB_OUTPUT
-
   tag:
     needs:
-      - upload-module
+      - build
     runs-on: ubuntu-latest
     outputs:
       build-version: ${{ steps.Tag.outputs.build-version }}
@@ -62,7 +31,7 @@ jobs:
       - id: Tag
         name: Push Tag
         run: |
-          echo ${{ needs.upload-module.outputs.build-version}}
-          git tag ${{ needs.upload-module.outputs.build-version}}
-          git push origin ${{ needs.upload-module.outputs.build-version}}
-          echo "build-version=${{ needs.upload-module.outputs.build-version}}" >> $GITHUB_OUTPUT
+          echo ${{ needs.build.outputs.build-version}}
+          git tag ${{ needs.build.outputs.build-version}}
+          git push origin ${{ needs.build.outputs.build-version}}
+          echo "build-version=${{ needs.build.outputs.build-version}}" >> $GITHUB_OUTPUT

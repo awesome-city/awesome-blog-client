@@ -10,7 +10,55 @@ on:
         type: string
 
 jobs:
+  create-lambda:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      content: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: AWS CloudFormation "Create lambda stack"
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+        with:
+          name: 'awesome-blog-${{ inputs.environment }}-front-lambda'
+          template: ./cfn/template/awesome-blog-front-lambda.template.yaml
+          no-fail-on-empty-changeset: "1"
+          parameter-overrides: >-
+            ServiceName=awesome-blog,
+            Environment=${{ inputs.environment }},
+            ArtifactBucket=${{ secrets.S3_BUCKET_CMN_MODULE }},
+            ArtifactPath=artifact/blog/client/${{ inputs.build-version }}/lambda/lambda.zip
+
+  create-lambda-version:
+    needs:
+      - create-lambda
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      content: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - run: |
+          echo "TODO"
+          exit 1
+
   upload-static-files:
+    needs:
+      - create-lambda
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -29,24 +77,10 @@ jobs:
           s3://${{ secrets.S3_BUCKET_BLOG_WEB }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
           --recursive
 
-  create-lambda:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - run: |
-          echo "TODO"
-          exit 1
-
   deploy:
     needs:
       - upload-static-files
-      - lambda-version
+      - create-lambda
     runs-on: ubuntu-latest
     permissions:
       id-token: write
