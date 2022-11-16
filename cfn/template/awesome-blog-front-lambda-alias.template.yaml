@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description:
+Description: フロントエンドのBlueGreenデプロイ用LambdaのAliasを変更します
 
 Parameters:
   ServiceName:
@@ -32,4 +32,5 @@ Resources:
       FunctionName: !Join [ '-', [ !Ref ServiceName, !Ref Environment, 'front-page' ] ]
       FunctionVersion: !Ref FrontPageFunctionVersion
       Name: !Ref FunctionAlias
-      ProvisionedConcurrencyConfig: !FindInMap [ 'LambdaMap', !Ref Environment, 'ProvisionedConcurrency' ]
+      ProvisionedConcurrencyConfig:
+        ProvisionedConcurrentExecutions: !FindInMap [ 'LambdaMap', !Ref Environment, 'ProvisionedConcurrency' ]

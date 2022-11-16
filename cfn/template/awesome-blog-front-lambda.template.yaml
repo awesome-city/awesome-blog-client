@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description:
+Description: フロントエンドのBlueGreenデプロイ用Lambdaを作成します
 
 Parameters:
   ServiceName:
@@ -36,7 +36,8 @@ Resources:
   FrontPageFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Architectures: arm64
+      Architectures:
+        - arm64
       FunctionName: !Join [ '-', [ !Ref ServiceName, !Ref Environment, 'front-page' ] ]
       Runtime: nodejs16.x
       Code:
