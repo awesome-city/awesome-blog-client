@@ -11,6 +11,10 @@ on:
         description: AWS Role
         required: true
         type: string
+      aws-s3-artifact-bucket:
+        description: AWS S3 artifact bucket name
+        required: false
+        type: string
     outputs:
       artifact-name:
         description: Name of artifact to upload
@@ -96,5 +100,5 @@ jobs:
           echo ${{ needs.build.outputs.build-version}}
           aws s3 cp \
           ./awesome-blog-client/ \
-          s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ needs.build-version.outputs.build-version}}/ \
+          s3://${{ inputs.aws-s3-artifact-bucket }}/artifact/blog/client/${{ needs.build-version.outputs.build-version}}/ \
           --recursive

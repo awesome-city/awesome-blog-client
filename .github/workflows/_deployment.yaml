@@ -12,6 +12,14 @@ on:
         description: AWS Role
         required: true
         type: string
+      aws-s3-artifact-bucket:
+        description: AWS S3 artifact bucket name
+        required: true
+        type: string
+      aws-s3-web-bucket:
+        description: AWS S3 web bucket name
+        required: true
+        type: string
       build-version:
         required: true
         type: string
@@ -43,8 +51,8 @@ jobs:
           echo ${{ inputs.build-version }}
 
           awe s3 cp \
-          s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
-          s3://${{ secrets.S3_BUCKET_BLOG_WEB }}/${{ steps.short-region-name.outputs.value }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
+          s3://${{ inputs.aws-s3-artifact-bucket }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
+          s3://${{ inputs.aws-s3-web-bucket }}/${{ steps.short-region-name.outputs.value }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
           --recursive
 
   create-lambda:
@@ -67,7 +75,7 @@ jobs:
           parameter-overrides: >-
             ServiceName=awesome-blog,
             Environment=${{ inputs.environment }},
-            ArtifactBucket=${{ secrets.S3_BUCKET_CMN_MODULE }},
+            ArtifactBucket=${{ inputs.aws-s3-artifact-bucket }},
             ArtifactPath=artifact/blog/client/${{ inputs.build-version }}/lambda/artifact.zip
 
   create-lambda-version:
