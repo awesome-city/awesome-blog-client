@@ -5,6 +5,13 @@ on:
       environment:
         required: true
         type: string
+      aws-region:
+        required: true
+        type: string
+      aws-role-arn:
+        description: AWS Role
+        required: true
+        type: string
       build-version:
         required: true
         type: string
@@ -21,8 +28,15 @@ jobs:
     steps:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ inputs.aws-role-arn }}
+          aws-region: ${{ input.aws-region }}
+
+      - id: short-region-name
+        name: Short region name
+        run: |
+          list=(${foo//,/ })
+          short=${list[0]:0:1}${list[1]:0:1}${list[2]:0:1}
+          echo "value=${short}" >> $GITHUB_OUTPUT
 
       - name: Copy static files
         run: |
@@ -30,7 +44,7 @@ jobs:
 
           awe s3 cp \
           s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
-          s3://${{ secrets.S3_BUCKET_BLOG_WEB }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
+          s3://${{ secrets.S3_BUCKET_BLOG_WEB }}/${{ steps.short-region-name.outputs.value }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
           --recursive
 
   create-lambda:
@@ -41,8 +55,8 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ inputs.aws-role-arn }}
+          aws-region: ${{ input.aws-region }}
 
       - name: AWS CloudFormation "Create lambda stack"
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
@@ -68,8 +82,8 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ inputs.aws-role-arn }}
+          aws-region: ${{ input.aws-region }}
 
       - id: cloudformation
         name: AWS CloudFormation "Create lambda version stack"
@@ -94,8 +108,8 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ inputs.aws-role-arn }}
+          aws-region: ${{ input.aws-region }}
 
       - name: AWS CloudFormation "Upload lambda alias"
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
@@ -108,5 +122,3 @@ jobs:
             Environment=${{ inputs.environment }},
             FunctionAlias=live,
             FrontPageFunctionVersion=${{ needs.create-lambda-version.FrontPageFunctionVersionNum }}
-
-

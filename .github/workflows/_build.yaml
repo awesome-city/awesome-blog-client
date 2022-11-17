@@ -7,6 +7,10 @@ on:
         required: false
         type: boolean
         default: false
+      aws-role-arn:
+        description: AWS Role
+        required: true
+        type: string
     outputs:
       artifact-name:
         description: Name of artifact to upload
@@ -83,8 +87,8 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ inputs.aws-role-arn }}
+          aws-region: ap-northeast-1
 
       - id: Upload
         name: Upload

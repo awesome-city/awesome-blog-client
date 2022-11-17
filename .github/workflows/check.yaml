@@ -19,3 +19,4 @@ jobs:
     uses: ./.github/workflows/_build.yaml
     with:
       dry-run: true
+      aws-role-arn: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}

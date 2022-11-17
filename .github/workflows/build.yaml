@@ -4,6 +4,7 @@ on:
     branches:
       - main
 
+
 jobs:
   test:
     uses: ./.github/workflows/_test.yaml
@@ -15,6 +16,8 @@ jobs:
     needs:
       - test
     uses: ./.github/workflows/_build.yaml
+    with:
+      aws-role-arn: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
 
   tag:
     needs:
