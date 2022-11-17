@@ -18,4 +18,4 @@ jobs:
   build:
     uses: ./.github/workflows/_build.yaml
     with:
-      dry-run: '1'
+      dry-run: true
