@@ -4,7 +4,7 @@ on:
     inputs:
       dry-run:
         description: to prevent upload artifacts, set '1'
-        required: true
+        required: false
         type: boolean
         default: false
     outputs:
