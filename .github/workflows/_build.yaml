@@ -1,6 +1,12 @@
 name: Build
 on:
   workflow_call:
+    inputs:
+      dry-run:
+        description: to prevent upload artifacts, set '1'
+        required: true
+        type: boolean
+        default: false
     outputs:
       artifact-name:
         description: Name of artifact to upload
@@ -40,7 +46,11 @@ jobs:
       - name: Create lambda
         run: npm run create-index-lambda
 
+      - name: Zip lambda
+        run: zip -r ./dist/lambda/artifact.zip ./dist/lambda/index.js
+
       - name: Upload Artifacts
+        if: inputs.dry-run != true
         uses: actions/upload-artifact@v3
         with:
           name: awesome-blog-client
@@ -56,6 +66,7 @@ jobs:
         run: echo "build-version=v$(date +"%Y%m%d%H%M")" >> $GITHUB_OUTPUT
 
   upload-module:
+    if: inputs.dry-run != true
     needs:
       - build
       - build-version

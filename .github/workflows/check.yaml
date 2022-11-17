@@ -14,3 +14,8 @@ jobs:
 
   codeQL:
     uses: ./.github/workflows/_codeql.yaml
+
+  build:
+    uses: ./.github/workflows/_build.yaml
+    with:
+      dry-run: true
