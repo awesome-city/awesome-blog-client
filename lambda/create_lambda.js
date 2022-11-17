@@ -1,7 +1,6 @@
 var fs = require('fs');
 var path = require('path');
 var util = require('util');
-var archiver = require('archiver')
 
 var template = fs.readFileSync(path.join(__dirname, 'index.template.js'), 'utf8');
 
