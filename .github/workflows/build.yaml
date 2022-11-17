@@ -20,8 +20,8 @@ jobs:
       - test
     uses: ./.github/workflows/_build.yaml
     with:
-      aws-role-arn: ${{ env.aws-deployment-role-arn }}
-      aws-s3-artifact-bucket: ${{ env.aws-s3-artifact-bucket }}
+      aws-role-arn: '${{ env.aws-deployment-role-arn }}'
+      aws-s3-artifact-bucket: '${{ env.aws-s3-artifact-bucket }}'
 
   tag:
     needs:

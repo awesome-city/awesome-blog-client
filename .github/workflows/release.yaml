@@ -33,10 +33,10 @@ jobs:
     uses: ./.github/workflows/deployment.yaml
     with:
       environment: dev
-      aws-region: ${{ matrix.aws-region }}
-      build-version: ${{ needs.build-version.outputs.build-version }}
-      aws-role-arn: ${{ env.aws-deployment-role-arn }}
-      aws-s3-artifact-bucket: ${{ env.aws-s3-artifact-bucket }}
+      aws-region: '${{ matrix.aws-region }}'
+      build-version: '${{ needs.build-version.outputs.build-version }}'
+      aws-role-arn: '${{ env.aws-deployment-role-arn }}'
+      aws-s3-artifact-bucket: '${{ env.aws-s3-artifact-bucket }}'
 
   # リリース(prerelease)作成時にstg環境にデプロイ
   deploy-staging:
@@ -49,10 +49,10 @@ jobs:
     uses: ./.github/workflows/deployment.yaml
     with:
       environment: stg
-      aws-region: ${{ matrix.aws-region }}
-      build-version: ${{ needs.build-version.outputs.build-version }}
-      aws-role-arn: ${{ env.aws-deployment-role-arn }}
-      aws-s3-artifact-bucket: ${{ env.aws-s3-artifact-bucket }}
+      aws-region: '${{ matrix.aws-region }}'
+      build-version: '${{ needs.build-version.outputs.build-version }}'
+      aws-role-arn: '${{ env.aws-deployment-role-arn }}'
+      aws-s3-artifact-bucket: '${{ env.aws-s3-artifact-bucket }}'
 
   # リリース作成時にprd環境にデプロイ
   deploy-production:
@@ -65,7 +65,7 @@ jobs:
     uses: ./.github/workflows/deployment.yaml
     with:
       environment: prd
-      aws-region: ${{ matrix.aws-region }}
-      build-version: ${{ needs.build-version.outputs.build-version }}
-      aws-role-arn: ${{ env.aws-deployment-role-arn }}
-      aws-s3-artifact-bucket: ${{ env.aws-s3-artifact-bucket }}
+      aws-region: '${{ matrix.aws-region }}'
+      build-version: '${{ needs.build-version.outputs.build-version }}'
+      aws-role-arn: '${{ env.aws-deployment-role-arn }}'
+      aws-s3-artifact-bucket: '${{ env.aws-s3-artifact-bucket }}'
