@@ -54,7 +54,7 @@ jobs:
             ServiceName=awesome-blog,
             Environment=${{ inputs.environment }},
             ArtifactBucket=${{ secrets.S3_BUCKET_CMN_MODULE }},
-            ArtifactPath=artifact/blog/client/${{ inputs.build-version }}/lambda/lambda.zip
+            ArtifactPath=artifact/blog/client/${{ inputs.build-version }}/lambda/artifact.zip
 
   create-lambda-version:
     needs:
