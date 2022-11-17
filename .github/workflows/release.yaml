@@ -1,0 +1,48 @@
+name: Trigger on tag pushed
+on:
+  push:
+    tags:
+      - 'v*'
+  release:
+    types:
+      - prereleased
+      - released
+
+jobs:
+  build-version:
+    runs-on: ubuntu-latest
+    outputs:
+      build-version: ${{ steps.TagName.outputs.build-version }}
+    steps:
+      - id: TagName
+        run: echo "build-version=${REF##*/}" >> $GITHUB_OUTPUT
+
+  # タグプッシュ時にdev環境にデプロイ
+  deploy-development:
+    needs:
+      - build-version
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/deployment.yaml
+    with:
+      environment: dev
+      build-version: ${{ needs.build-version.outputs.build-version }}
+
+  # リリース(prerelease)作成時にstg環境にデプロイ
+  deploy-staging:
+    needs:
+      - build-version
+    if: github.event_name == 'release' && github.event.action == 'prereleased'
+    uses: ./.github/workflows/deployment.yaml
+    with:
+      environment: stg
+      build-version: ${{ needs.build-version.outputs.build-version }}
+
+  # リリース作成時にprd環境にデプロイ
+  deploy-production:
+    needs:
+      - build-version
+    if: github.event_name == 'release' && github.event.action == 'released'
+    uses: ./.github/workflows/deployment.yaml
+    with:
+      environment: prd
+      build-version: ${{ needs.build-version.outputs.build-version }}

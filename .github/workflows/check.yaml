@@ -1,0 +1,16 @@
+name: Trigger test
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - '**'
+      - '!main'
+
+jobs:
+  test:
+    uses: ./.github/workflows/_test.yaml
+
+  codeQL:
+    uses: ./.github/workflows/_codeql.yaml

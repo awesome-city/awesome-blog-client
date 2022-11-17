@@ -1,56 +1,37 @@
-name: Build
+name: Trigger on push main
 on:
-  workflow_call:
-    outputs:
-      artifact-name:
-        description: Name of artifact to upload
-        value: awesome-blog-client
-      build-version:
-        description: build date
-        value: ${{ jobs.build-version.outputs.build-version }}
+  push:
+    branches:
+      - main
 
 jobs:
+  test:
+    uses: ./.github/workflows/_test.yaml
+
+  codeQL:
+    uses: ./.github/workflows/_codeql.yaml
+
   build:
+    needs:
+      - test
+    uses: ./.github/workflows/_build.yaml
+
+  tag:
+    needs:
+      - build
     runs-on: ubuntu-latest
+    outputs:
+      build-version: ${{ steps.Tag.outputs.build-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      # Setup .npmrc file to publish to GitHub Packages
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-
-      - uses: actions/cache@v3
-        id: node_modules_cache_id
-        env:
-          cache-name: cache-node-modules
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          token: ${{ secrets.OWNER_PAT }}
 
-      - name: Install
-        if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Create lambda
-        run: npm run create-index-lambda
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: awesome-blog-client
-          path: dist
-
-  build-version:
-    runs-on: ubuntu-latest
-    outputs:
-      build-version: ${{ steps.BuildVersion.outputs.build-version }}
-    steps:
-      - id: BuildVersion
-        name: BuildVersion
-        run: echo "build-version=v$(date +"%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+      - id: Tag
+        name: Push Tag
+        run: |
+          echo ${{ needs.build.outputs.build-version}}
+          git tag ${{ needs.build.outputs.build-version}}
+          git push origin ${{ needs.build.outputs.build-version}}
+          echo "build-version=${{ needs.build.outputs.build-version}}" >> $GITHUB_OUTPUT

@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: フロントエンドのBlueGreenデプロイ用LambdaのVersionを作成します
+
+Parameters:
+  ServiceName:
+    Type: String
+    Default: 'awesome-blog'
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - stg
+      - prd
+
+Resources:
+  FrontPageFunctionVersion:
+    Type: AWS::Lambda::Version
+    Properties:
+      FunctionName: !Join [ '-', [ !Ref ServiceName, !Ref Environment, 'front-page' ] ]
+
+Outputs:
+  FrontPageFunctionVersionNum:
+    Value: !GetAtt FrontPageFunctionVersion.Version

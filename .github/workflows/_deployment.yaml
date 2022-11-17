@@ -1,0 +1,112 @@
+name: Deploy
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      build-version:
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  content: read
+
+jobs:
+  upload-static-files:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Copy static files
+        run: |
+          echo ${{ inputs.build-version }}
+
+          awe s3 cp \
+          s3://${{ secrets.S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
+          s3://${{ secrets.S3_BUCKET_BLOG_WEB }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
+          --recursive
+
+  create-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: AWS CloudFormation "Create lambda stack"
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+        with:
+          name: 'awesome-blog-${{ inputs.environment }}-front-lambda'
+          template: ./cfn/template/awesome-blog-front-lambda.template.yaml
+          no-fail-on-empty-changeset: "1"
+          parameter-overrides: >-
+            ServiceName=awesome-blog,
+            Environment=${{ inputs.environment }},
+            ArtifactBucket=${{ secrets.S3_BUCKET_CMN_MODULE }},
+            ArtifactPath=artifact/blog/client/${{ inputs.build-version }}/lambda/lambda.zip
+
+  create-lambda-version:
+    needs:
+      - create-lambda
+    runs-on: ubuntu-latest
+    outputs:
+      FrontPageFunctionVersionNum: ${{ steps.cloudformation.outputs.FrontPageFunctionVersionNum }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - id: cloudformation
+        name: AWS CloudFormation "Create lambda version stack"
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+        with:
+          name: 'awesome-blog-${{ inputs.environment }}-front-lambda-version-${{ inputs.build-version }}'
+          template: ./cfn/template/awesome-blog-front-lambda-version.template.yaml
+          no-fail-on-empty-changeset: "1"
+          parameter-overrides: >-
+            ServiceName=awesome-blog,
+            Environment=${{ inputs.environment }}
+
+  deploy:
+    needs:
+      - upload-static-files
+      - create-lambda-version
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: AWS CloudFormation "Upload lambda alias"
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+        with:
+          name: 'awesome-blog-${{ inputs.environment }}-front-lambda-alias'
+          template: ./cfn/template/awesome-blog-front-lambda-alias.template.yaml
+          no-fail-on-empty-changeset: "1"
+          parameter-overrides: >-
+            ServiceName=awesome-blog,
+            Environment=${{ inputs.environment }},
+            FunctionAlias=live,
+            FrontPageFunctionVersion=${{ needs.create-lambda-version.FrontPageFunctionVersionNum }}
+
+

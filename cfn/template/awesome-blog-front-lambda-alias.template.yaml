@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: フロントエンドのBlueGreenデプロイ用LambdaのAliasを変更します
+
+Parameters:
+  ServiceName:
+    Type: String
+    Default: 'awesome-blog'
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - stg
+      - prd
+  FunctionAlias:
+    Type: String
+  FrontPageFunctionVersion:
+    Type: String
+
+Resources:
+  FrontPageFunctionAlias:
+    Type: AWS::Lambda::Alias
+    Properties:
+      FunctionName: !Join [ '-', [ !Ref ServiceName, !Ref Environment, 'front-page' ] ]
+      FunctionVersion: !Ref FrontPageFunctionVersion
+      Name: !Ref FunctionAlias
