@@ -40,7 +40,7 @@ jobs:
         run: |
           echo ${{ inputs.build-version }}
 
-          awe s3 cp \
+          aws s3 cp \
           s3://${{ secrets.AWS_S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
           s3://${{ secrets.AWS_S3_BUCKET_BLOG_WEB }}/${{ steps.short-region-name.outputs.value }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
           --recursive
