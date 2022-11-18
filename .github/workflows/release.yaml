@@ -15,7 +15,7 @@ jobs:
       build-version: ${{ steps.TagName.outputs.build-version }}
     steps:
       - id: TagName
-        run: echo "build-version=${REF##*/}" >> $GITHUB_OUTPUT
+        run: echo "build-version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
       - id: Echo
         run: echo "build-version=${{ steps.TagName.outputs.build-version }}"
