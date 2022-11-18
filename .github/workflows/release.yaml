@@ -8,11 +8,6 @@ on:
       - prereleased
       - released
 
-env:
-  aws-deployment-role-arn: 'arn:aws:iam::781550338764:role/awesome-city-cicd'
-  aws-s3-artifact-bucket: ${{ secrets.AWS_S3_BUCKET_CMN_MODULE }}
-  aws-s3-web-bucket: ${{ secrets.AWS_S3_BUCKET_BLOG_WEB }}
-
 jobs:
   build-version:
     runs-on: ubuntu-latest
@@ -33,10 +28,10 @@ jobs:
     uses: ./.github/workflows/deployment.yaml
     with:
       environment: dev
-      aws-region: '${{ matrix.aws-region }}'
-      build-version: '${{ needs.build-version.outputs.build-version }}'
-      aws-role-arn: '${{ env.aws-deployment-role-arn }}'
-      aws-s3-artifact-bucket: '${{ env.aws-s3-artifact-bucket }}'
+      aws-region: ${{ matrix.aws-region }}
+      build-version: ${{ needs.build-version.outputs.build-version }}
+      aws-role-arn: 'arn:aws:iam::781550338764:role/awesome-city-cicd'
+    secrets: inherit
 
   # リリース(prerelease)作成時にstg環境にデプロイ
   deploy-staging:
@@ -49,10 +44,10 @@ jobs:
     uses: ./.github/workflows/deployment.yaml
     with:
       environment: stg
-      aws-region: '${{ matrix.aws-region }}'
-      build-version: '${{ needs.build-version.outputs.build-version }}'
-      aws-role-arn: '${{ env.aws-deployment-role-arn }}'
-      aws-s3-artifact-bucket: '${{ env.aws-s3-artifact-bucket }}'
+      aws-region: ${{ matrix.aws-region }}
+      build-version: ${{ needs.build-version.outputs.build-version }}
+      aws-role-arn: 'arn:aws:iam::781550338764:role/awesome-city-cicd'
+    secrets: inherit
 
   # リリース作成時にprd環境にデプロイ
   deploy-production:
@@ -65,7 +60,7 @@ jobs:
     uses: ./.github/workflows/deployment.yaml
     with:
       environment: prd
-      aws-region: '${{ matrix.aws-region }}'
-      build-version: '${{ needs.build-version.outputs.build-version }}'
-      aws-role-arn: '${{ env.aws-deployment-role-arn }}'
-      aws-s3-artifact-bucket: '${{ env.aws-s3-artifact-bucket }}'
+      aws-region: ${{ matrix.aws-region }}
+      build-version: ${{ needs.build-version.outputs.build-version }}
+      aws-role-arn: 'arn:aws:iam::781550338764:role/awesome-city-cicd'
+    secrets: inherit
