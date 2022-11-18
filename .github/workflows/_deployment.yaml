@@ -21,7 +21,18 @@ permissions:
   contents: read
 
 jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "environment=${{ inputs.environment }}"
+          echo "aws-region=${{ inputs.aws-region }}"
+          echo "aws-role-arn=${{ inputs.aws-role-arn }}"
+          echo "build-version=${{ inputs.build-version }}"
+
   upload-static-files:
+    needs:
+      - echo
     runs-on: ubuntu-latest
     steps:
       - uses: aws-actions/configure-aws-credentials@v1
@@ -46,6 +57,8 @@ jobs:
           --recursive
 
   create-lambda:
+    needs:
+      - echo
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

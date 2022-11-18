@@ -17,6 +17,9 @@ jobs:
       - id: TagName
         run: echo "build-version=${REF##*/}" >> $GITHUB_OUTPUT
 
+      - id: Echo
+        run: echo "build-version=${{ steps.TagName.outputs.build-version }}"
+
   # タグプッシュ時にdev環境にデプロイ
   deploy-development:
     needs:
