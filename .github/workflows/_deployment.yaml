@@ -67,6 +67,8 @@ jobs:
             Environment=${{ inputs.environment }},
             ArtifactBucket=${{ secrets.AWS_S3_BUCKET_CMN_MODULE }},
             ArtifactKey=artifact/blog/client/${{ inputs.build-version }}/lambda/artifact.zip
+          capabilities: CAPABILITY_NAMED_IAM
+          tags: [ { "Key": "Owner", "Value": "awesome" } ]
 
   create-lambda-version:
     needs:
@@ -93,6 +95,7 @@ jobs:
           parameter-overrides: >-
             ServiceName=awesome-blog,
             Environment=${{ inputs.environment }}
+          tags: [ { "Key": "Owner", "Value": "awesome" } ]
 
   deploy:
     needs:
@@ -120,3 +123,4 @@ jobs:
             Environment=${{ inputs.environment }},
             FunctionAlias=live,
             FrontPageFunctionVersion=${{ needs.create-lambda-version.FrontPageFunctionVersionNum }}
+          tags: [ { "Key": "Owner", "Value": "awesome" } ]
