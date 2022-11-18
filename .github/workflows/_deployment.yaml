@@ -18,13 +18,11 @@ on:
 
 permissions:
   id-token: write
-  content: read
+  contents: read
 
 jobs:
   upload-static-files:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
     steps:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
