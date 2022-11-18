@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         aws-region: [ ap-northeast-1 ]
-    uses: ./.github/workflows/deployment.yaml
+    uses: ./.github/workflows/_deployment.yaml
     with:
       environment: dev
       aws-region: ${{ matrix.aws-region }}
@@ -41,7 +41,7 @@ jobs:
     strategy:
       matrix:
         aws-region: [ ap-northeast-1 ]
-    uses: ./.github/workflows/deployment.yaml
+    uses: ./.github/workflows/_deployment.yaml
     with:
       environment: stg
       aws-region: ${{ matrix.aws-region }}
@@ -57,7 +57,7 @@ jobs:
     strategy:
       matrix:
         aws-region: [ ap-northeast-1 ]
-    uses: ./.github/workflows/deployment.yaml
+    uses: ./.github/workflows/_deployment.yaml
     with:
       environment: prd
       aws-region: ${{ matrix.aws-region }}
