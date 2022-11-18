@@ -29,7 +29,7 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ inputs.aws-role-arn }}
-          aws-region: ${{ input.aws-region }}
+          aws-region: ${{ inputs.aws-region }}
 
       - id: short-region-name
         name: Short region name
@@ -56,7 +56,7 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ inputs.aws-role-arn }}
-          aws-region: ${{ input.aws-region }}
+          aws-region: ${{ inputs.aws-region }}
 
       - name: AWS CloudFormation "Create lambda stack"
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
@@ -83,7 +83,7 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ inputs.aws-role-arn }}
-          aws-region: ${{ input.aws-region }}
+          aws-region: ${{ inputs.aws-region }}
 
       - id: cloudformation
         name: AWS CloudFormation "Create lambda version stack"
@@ -109,7 +109,7 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ inputs.aws-role-arn }}
-          aws-region: ${{ input.aws-region }}
+          aws-region: ${{ inputs.aws-region }}
 
       - name: AWS CloudFormation "Upload lambda alias"
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
