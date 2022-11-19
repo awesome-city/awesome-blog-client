@@ -19,5 +19,4 @@ jobs:
     uses: ./.github/workflows/_build.yaml
     with:
       dry-run: true
-      aws-role-arn: 'arn:aws:iam::781550338764:role/awesome-city-cicd'
     secrets: inherit

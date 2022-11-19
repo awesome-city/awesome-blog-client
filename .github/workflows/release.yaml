@@ -20,50 +20,35 @@ jobs:
       - id: Echo
         run: echo "build-version=${{ steps.TagName.outputs.build-version }}"
 
-  # タグプッシュ時にdev環境にデプロイ
-  deploy-development:
-    needs:
-      - build-version
-    if: github.event_name == 'push'
-    strategy:
-      matrix:
-        aws-region: [ ap-northeast-1 ]
-    uses: ./.github/workflows/_deployment.yaml
-    with:
-      environment: dev
-      aws-region: ${{ matrix.aws-region }}
-      build-version: ${{ needs.build-version.outputs.build-version }}
-      aws-role-arn: 'arn:aws:iam::781550338764:role/awesome-city-cicd'
-    secrets: inherit
+  switch-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.Environment.outputs.environment }}
+    steps:
+      - id: Environment
+        run: |
+          if [ ${{ github.event_name }} == 'push' ]; then
+            echo "environment=dev" >> "GITHUB_OUTPUT"
+          elif [ ${{ github.event_name }} == 'release' ] && [ ${{ github.event.action }} == 'prereleased' ]; then
+            echo "environment=stg" >> "GITHUB_OUTPUT"
+          elif [ ${{ github.event_name }} == 'release' ] && [ ${{ github.event.action }} == 'released' ]; then
+            echo "environment=prd" >> "GITHUB_OUTPUT"
+          fi
+        shell: bash
 
-  # リリース(prerelease)作成時にstg環境にデプロイ
-  deploy-staging:
-    needs:
-      - build-version
-    if: github.event_name == 'release' && github.event.action == 'prereleased'
-    strategy:
-      matrix:
-        aws-region: [ ap-northeast-1 ]
-    uses: ./.github/workflows/_deployment.yaml
-    with:
-      environment: stg
-      aws-region: ${{ matrix.aws-region }}
-      build-version: ${{ needs.build-version.outputs.build-version }}
-      aws-role-arn: 'arn:aws:iam::781550338764:role/awesome-city-cicd'
-    secrets: inherit
+      - name: Echo
+        run: echo "environment=${{ steps.Environment.outputs.environment }}"
 
-  # リリース作成時にprd環境にデプロイ
-  deploy-production:
+  deploy:
     needs:
       - build-version
-    if: github.event_name == 'release' && github.event.action == 'released'
+      - switch-environment
     strategy:
       matrix:
         aws-region: [ ap-northeast-1 ]
     uses: ./.github/workflows/_deployment.yaml
     with:
-      environment: prd
+      environment: ${{ needs.switch-environment.outputs.environment }}
       aws-region: ${{ matrix.aws-region }}
       build-version: ${{ needs.build-version.outputs.build-version }}
-      aws-role-arn: 'arn:aws:iam::781550338764:role/awesome-city-cicd'
     secrets: inherit

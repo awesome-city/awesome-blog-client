@@ -8,10 +8,6 @@ on:
       aws-region:
         required: true
         type: string
-      aws-role-arn:
-        description: AWS Role
-        required: true
-        type: string
       build-version:
         required: true
         type: string
@@ -27,7 +23,7 @@ jobs:
       - run: |
           echo "environment=${{ inputs.environment }}"
           echo "aws-region=${{ inputs.aws-region }}"
-          echo "aws-role-arn=${{ inputs.aws-role-arn }}"
+          echo "aws-role-arn=${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}"
           echo "build-version=${{ inputs.build-version }}"
 
   upload-static-files:
@@ -37,7 +33,7 @@ jobs:
     steps:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ inputs.aws-role-arn }}
+          role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
           aws-region: ${{ inputs.aws-region }}
 
       - id: short-region-name
@@ -46,7 +42,7 @@ jobs:
           AWS_REGION: ${{ inputs.aws-region }}
         shell: bash
         run: |
-          list=("${AWS_REGION//-/ }")
+          list=(${AWS_REGION//-/ })
           short="${list[0]:0:1}""${list[1]:0:1}""${list[2]:0:1}"
           echo "value=${short}" >> "$GITHUB_OUTPUT"
 
@@ -70,7 +66,7 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ inputs.aws-role-arn }}
+          role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
           aws-region: ${{ inputs.aws-region }}
 
       - name: AWS CloudFormation "Create lambda stack"
@@ -87,6 +83,10 @@ jobs:
           capabilities: CAPABILITY_NAMED_IAM
           tags: '[ { "Key": "Owner", "Value": "awesome" } ]'
 
+      - name: Describe stack
+        run: |
+          aws cloudformation describe-stack 'awesome-blog-${{ inputs.environment }}-front-lambda'
+
   create-lambda-version:
     needs:
       - create-lambda
@@ -99,7 +99,7 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ inputs.aws-role-arn }}
+          role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
           aws-region: ${{ inputs.aws-region }}
 
       - id: cloudformation
@@ -125,7 +125,7 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ inputs.aws-role-arn }}
+          role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
           aws-region: ${{ inputs.aws-region }}
 
       - name: AWS CloudFormation "Upload lambda alias"
