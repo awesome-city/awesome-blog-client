@@ -28,11 +28,11 @@ jobs:
       - id: Environment
         run: |
           if [ ${{ github.event_name }} == 'push' ]; then
-            echo "environment=dev" >> "GITHUB_OUTPUT"
+            echo "environment=dev" >> "$GITHUB_OUTPUT"
           elif [ ${{ github.event_name }} == 'release' ] && [ ${{ github.event.action }} == 'prereleased' ]; then
-            echo "environment=stg" >> "GITHUB_OUTPUT"
+            echo "environment=stg" >> "$GITHUB_OUTPUT"
           elif [ ${{ github.event_name }} == 'release' ] && [ ${{ github.event.action }} == 'released' ]; then
-            echo "environment=prd" >> "GITHUB_OUTPUT"
+            echo "environment=prd" >> "$GITHUB_OUTPUT"
           fi
         shell: bash
 
