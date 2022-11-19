@@ -51,7 +51,7 @@ jobs:
         run: npm run create-index-lambda
 
       - name: Zip lambda
-        run: zip -r ./dist/lambda/artifact.zip ./dist/lambda/index.js
+        run: zip -rj ./dist/lambda/artifact.zip ./dist/lambda/index.js
 
       - name: Upload Artifacts
         if: inputs.dry-run != true
