@@ -47,12 +47,13 @@ jobs:
         shell: bash
         run: |
           list=("${AWS_REGION//-/ }")
-          short="${list[0]:0:1}${list[1]:0:1}${list[2]:0:1}"
+          short="${list[0]:0:1}""${list[1]:0:1}""${list[2]:0:1}"
           echo "value=${short}" >> "$GITHUB_OUTPUT"
 
       - name: Copy static files
         run: |
-          echo ${{ inputs.build-version }}
+          echo "build-version=${{ inputs.build-version }}"
+          echo "short-region-name=${{ steps.short-region-name.outputs.value }}"
 
           aws s3 cp \
           s3://${{ secrets.AWS_S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
