@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: フロントエンドのBlueGreenデプロイ用LambdaのAliasを変更します
+Description: Create Lambda alias for blue-green static contents
 
 Parameters:
   ServiceName:

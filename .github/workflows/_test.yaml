@@ -47,10 +47,26 @@ jobs:
           pip install cfn-lint
 
       - name: Add problem matcher
-        run: echo "::add-matcher::.github/cfn-lint.json"
+        run: echo "::add-matcher::.github/cfn-lint-matcher.json"
 
       - name: Lint by cfn-lint
         run: cfn-lint ./cfn/template/*.yaml -f parseable
+
+  lint-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Lint
+        uses: reviewdog/action-actionlint@v1
+
+      - name: Check workflow files
+        shell: bash
+        run: |
+          echo "::add-matcher::.github/actionlint-matcher.json"
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
 
   test:
     runs-on: ubuntu-latest

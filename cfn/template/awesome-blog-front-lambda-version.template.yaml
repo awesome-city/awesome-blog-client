@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: フロントエンドのBlueGreenデプロイ用LambdaのVersionを作成します
+Description: Create Lambda version for blue-green static contents
 
 Parameters:
   ServiceName:

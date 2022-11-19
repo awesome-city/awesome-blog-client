@@ -42,8 +42,11 @@ jobs:
 
       - id: short-region-name
         name: Short region name
+        env:
+          AWS_REGION: ${{ inputs.aws-region }}
+        shell: bash
         run: |
-          list=(${foo//,/ })
+          list=(${AWS_REGION//-/ })
           short=${list[0]:0:1}${list[1]:0:1}${list[2]:0:1}
           echo "value=${short}" >> $GITHUB_OUTPUT
 

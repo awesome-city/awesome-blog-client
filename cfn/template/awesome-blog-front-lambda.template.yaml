@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: フロントエンドのBlueGreenデプロイ用Lambdaを作成します
+Description: Create Lambda for blue-green static contents
 
 Parameters:
   ServiceName:
