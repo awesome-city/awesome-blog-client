@@ -37,4 +37,4 @@ jobs:
           echo ${{ needs.build.outputs.build-version}}
           git tag ${{ needs.build.outputs.build-version}}
           git push origin ${{ needs.build.outputs.build-version}}
-          echo "build-version=${{ needs.build.outputs.build-version}}" >> $GITHUB_OUTPUT
+          echo "build-version=${{ needs.build.outputs.build-version}}" >> "$GITHUB_OUTPUT"
