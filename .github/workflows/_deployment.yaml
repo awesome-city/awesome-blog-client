@@ -85,7 +85,7 @@ jobs:
 
       - name: Describe stack
         run: |
-          aws cloudformation describe-stack 'awesome-blog-${{ inputs.environment }}-front-lambda'
+          aws cloudformation describe-stack-resources --stack-name 'awesome-blog-${{ inputs.environment }}-front-lambda' --output table
 
   create-lambda-version:
     needs:
