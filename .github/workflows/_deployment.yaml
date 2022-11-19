@@ -52,9 +52,9 @@ jobs:
           echo "short-region-name=${{ steps.short-region-name.outputs.value }}"
 
           aws s3 cp \
-          s3://${{ secrets.AWS_S3_BUCKET_CMN_MODULE }}/artifact/blog/client/${{ inputs.build-version }}/sr/ \
-          s3://${{ secrets.AWS_S3_BUCKET_BLOG_WEB }}/${{ steps.short-region-name.outputs.value }}/${{ inputs.environment }}/sr/${{ inputs.build-version }} \
-          --recursive
+            s3://awesome-blog-an1-dev-mdl/artifact/blog/client/${{ inputs.build-version }}/sr/ \
+            s3://awesome-blog-${{ steps.short-region-name.outputs.value }}-${{ inputs.environment }}-web/sr/${{ inputs.build-version }} \
+            --recursive
 
   create-lambda:
     needs:
@@ -78,7 +78,7 @@ jobs:
           parameter-overrides: >-
             ServiceName=awesome-blog,
             Environment=${{ inputs.environment }},
-            ArtifactBucket=${{ secrets.AWS_S3_BUCKET_CMN_MODULE }},
+            ArtifactBucket=awesome-blog-an1-dev-mdl,
             ArtifactKey=artifact/blog/client/${{ inputs.build-version }}/lambda/artifact.zip
           capabilities: CAPABILITY_NAMED_IAM
           tags: '[ { "Key": "Owner", "Value": "awesome" } ]'
