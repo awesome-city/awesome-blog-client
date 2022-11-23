@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { getSite } from '../../../../store/selectors/app.selector';
+import { appSelectors } from '../../../../../store/selectors/app.selector';
 import { Store } from '@ngrx/store';
-import { State } from '../../../../store/app.state';
+import { State } from '../../../../../store/app.state';
 
 @Component({
   selector: 'app-public-header',
@@ -9,7 +9,7 @@ import { State } from '../../../../store/app.state';
   styleUrls: ['./public-header.component.scss'],
 })
 export class PublicHeaderComponent {
-  $site = this.store.select(getSite);
+  site$ = this.store.select(appSelectors.getSite);
 
   constructor(private store: Store<State>) {}
 }

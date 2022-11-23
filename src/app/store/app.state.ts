@@ -33,9 +33,26 @@ export const initialState: State = {
       coverImageUrl: 'https://4mo.co/wp-content/uploads/2021/02/top.jpg',
     },
     article: {
-      columns: 1,
       listType: 'card',
     },
+    sns: [
+      {
+        type: 'facebook',
+        link: 'https://www.facebook.com/4moco/',
+      },
+      {
+        type: 'twitter',
+        link: 'https://twitter.com/4mo_c',
+      },
+      {
+        type: 'instagram',
+        link: 'https://www.instagram.com/4mo_co',
+      },
+      {
+        type: 'amazon_wishlist',
+        link: 'https://example.com',
+      },
+    ],
   },
   author: undefined,
 };

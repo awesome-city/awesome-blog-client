@@ -8,10 +8,13 @@ import { TagPageComponent } from './pages/tag-page/tag-page.component';
 import { SharedModule } from '../../shared/shared.module';
 import { PublicStoreModule } from './store/public-store.module';
 import { PublicComponent } from './public.component';
-import { PublicSidebarComponent } from './components/public-sidebar/public-sidebar.component';
-import { PublicHeaderComponent } from './components/public-header/public-header.component';
-import { ArticleListComponent } from './components/article-list/article-list.component';
-import { CoverComponent } from './components/cover/cover.component';
+import { PublicSidebarComponent } from './components/common/public-sidebar/public-sidebar.component';
+import { PublicHeaderComponent } from './components/common/public-header/public-header.component';
+import { ArticleListComponent } from './components/article/article-list/article-list.component';
+import { CoverComponent } from './components/common/cover/cover.component';
+import { ArticleCardComponent } from './components/article/article-card/article-card.component';
+import { ArticleItemComponent } from './components/article/article-item/article-item.component';
+import { PublicFooterComponent } from './components/common/public-footer/public-footer.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,9 @@ import { CoverComponent } from './components/cover/cover.component';
     PublicHeaderComponent,
     ArticleListComponent,
     CoverComponent,
+    ArticleCardComponent,
+    ArticleItemComponent,
+    PublicFooterComponent,
   ],
   imports: [CommonModule, SharedModule, PublicRoutingModule, PublicStoreModule],
 })

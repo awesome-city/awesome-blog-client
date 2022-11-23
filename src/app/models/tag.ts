@@ -11,10 +11,4 @@ export interface Tag {
    * 表示名
    */
   name: string;
-
-  /**
-   * カラーコード
-   * @example \#c9c9c9
-   */
-  color: string;
 }

@@ -23,6 +23,11 @@ export interface Site {
   article: Article;
 
   /**
+   * SNS設定
+   */
+  sns: SNS[];
+
+  /**
    * テーマ
    */
   theme: Theme;
@@ -73,7 +78,6 @@ export const FilterType = ['dot', 'none'] as const;
  */
 export interface Article {
   listType: typeof ArticleListType[number];
-  columns: typeof SupportedArticleListColumn[number] | typeof SupportedArticleCardColumn[number];
 }
 
 /**
@@ -82,14 +86,37 @@ export interface Article {
 export const ArticleListType = ['list', 'card'] as const;
 
 /**
- * 記事一覧リスト型カラム数
+ * SNS設定
  */
-export const SupportedArticleListColumn = [1, 2] as const;
+export interface SNS {
+  /**
+   * SNSタイプ
+   */
+  type: ProfileSNSType;
+
+  /**
+   * リンク
+   */
+  link: string;
+}
 
 /**
- * 記事一覧カード型カラム数
+ * 対応ProfileSNS
  */
-export const SupportedArticleCardColumn = [1, 2, 3, 4] as const;
+export const SupportedProfileSNS = [
+  'facebook',
+  'twitter',
+  'instagram',
+  'github',
+  'amazon_wishlist',
+  'rss',
+  'mail',
+] as const;
+
+/**
+ * SNSタイプ
+ */
+export type ProfileSNSType = typeof SupportedProfileSNS[number];
 
 /**
  * サイトテーマ

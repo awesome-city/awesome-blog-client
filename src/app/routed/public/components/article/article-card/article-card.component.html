@@ -1,0 +1,16 @@
+<div *ngIf="article" class="card mb-3" [routerLink]="['articles', article.id]">
+  <figure class="thumbnail-wrapper">
+    <img [src]="article.thumbnailUrl" class="card-img-top" [alt]="article.title" />
+  </figure>
+  <div class="tags">
+    <label *ngFor="let tag of article.tags" class="badge bg-secondary me-1 tag" [routerLink]="['tags', tag.id]">
+      <i class="bi bi-tag"></i>
+      {{ tag.name }}
+    </label>
+  </div>
+  <div class="card-body">
+    <h6 class="card-title">{{ article.title }}</h6>
+    <p class="card-text summary">{{ article.summary }}</p>
+    <p class="card-text publish-at">{{ article.publishAt }}</p>
+  </div>
+</div>

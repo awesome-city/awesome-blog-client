@@ -1,4 +1,4 @@
-<ng-container *ngIf="$site | async as site">
+<ng-container *ngIf="site$ | async as site">
   <div
     *ngIf="site.cover.coverType !== 'none'"
     class="cover filter"
