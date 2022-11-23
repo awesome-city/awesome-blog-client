@@ -8,9 +8,8 @@ describe('PublicComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PublicComponent ]
-    })
-    .compileComponents();
+      declarations: [PublicComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PublicComponent);
     component = fixture.componentInstance;

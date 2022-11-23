@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-admin-sidebar',
   templateUrl: './admin-sidebar.component.html',
-  styleUrls: ['./admin-sidebar.component.scss']
+  styleUrls: ['./admin-sidebar.component.scss'],
 })
-export class AdminSidebarComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class AdminSidebarComponent {
+  constructor() {}
 }

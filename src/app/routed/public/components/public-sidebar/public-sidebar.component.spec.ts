@@ -8,9 +8,8 @@ describe('PublicSidebarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PublicSidebarComponent ]
-    })
-    .compileComponents();
+      declarations: [PublicSidebarComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PublicSidebarComponent);
     component = fixture.componentInstance;
