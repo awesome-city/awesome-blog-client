@@ -1,0 +1,25 @@
+@import "./src/styles/filter";
+
+.cover {
+  position: relative;
+
+  .cover-image {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
+    .cover-image-video, .cover-image-img {
+      display: block;
+      height: 100%;
+      -o-object-fit: cover;
+      object-fit: cover;
+      pointer-events: none;
+      position: relative;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+}

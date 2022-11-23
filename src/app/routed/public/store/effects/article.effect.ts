@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, distinctUntilChanged, filter, of, switchMap, withLatestFrom } from 'rxjs';
 import { ArticleService } from '../../../../service/rest/article/article.service';
 import { select, Store } from '@ngrx/store';
-import { loadingEndAction, loadingStartAction } from '../../../../store/actions/loading.action';
+import { loadingEndAction, loadingStartAction } from '../../../../store/actions/app-view.action';
 import {
   getArticlesLastEvaluatedKey,
   getArticlesMapSelector,

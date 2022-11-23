@@ -1,6 +1,9 @@
-<p>top-page works!</p>
-
---
+<div class="mb-3">
+  <app-cover></app-cover>
+</div>
+<div *ngIf="articles$ | async as articles" class="mb-3">
+  <app-article-list [articles]="articles"></app-article-list>
+</div>
 <ul *ngIf="articles$ | async as articles">
   <li *ngFor="let article of articles">
     <a [routerLink]="['articles', article?.id]">{{ article?.title }}</a>
