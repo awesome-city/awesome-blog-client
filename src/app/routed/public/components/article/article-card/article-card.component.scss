@@ -21,8 +21,8 @@
   .thumbnail-wrapper {
     img {
       object-fit: cover;
-      width: 100%;
-      min-height: 180px;
+      min-height: 140px;
+      max-height: 160px;
       background-color: #d1d1d1;
     }
 
@@ -64,6 +64,7 @@
     .card-title {
       height: 50px;
       line-height: 25px;
+      font-weight: 600;
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
@@ -73,11 +74,11 @@
     .card-text {
       &.summary {
         font-size: 0.75em;
-        height: 70px;
+        height: 50px;
         overflow: hidden;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 3;
       }
 
       &.publish-at {
