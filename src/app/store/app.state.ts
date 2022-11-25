@@ -24,8 +24,12 @@ export const initialState: State = {
   loading: new Set<string>(),
   site: {
     title: 'あら散歩',
-    subTitle: '',
+    subTitle: 'まだ見たことのない荒川の世界を発信！',
     theme: 'default',
+    header: {
+      subTitleBarColor: '#ff8888',
+      subTitleBarTextColor: 'white',
+    },
     cover: {
       coverType: 'video',
       filterType: 'dot',

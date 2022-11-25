@@ -13,6 +13,11 @@ export interface Site {
   subTitle: string;
 
   /**
+   * ヘッダー設定
+   */
+  header: Header;
+
+  /**
    * カバー設定
    */
   cover: Cover;
@@ -37,6 +42,16 @@ export interface Site {
    */
   GATrackingCode?: string;
 }
+
+/**
+ * ヘッダー設定
+ */
+export interface Header {
+  subTitleBarColor: typeof SubTitleBarColorType[number];
+  subTitleBarTextColor: 'white' | 'black';
+}
+
+export const SubTitleBarColorType = ['#ff8888', '#8fff9e'] as const;
 
 /**
  * カバー設定

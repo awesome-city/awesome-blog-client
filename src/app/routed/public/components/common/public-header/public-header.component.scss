@@ -6,3 +6,12 @@ header {
   }
 }
 
+.subTitleHeader {
+  .sns-link {
+    color: white;
+
+    &:hover {
+      color: antiquewhite;
+    }
+  }
+}
