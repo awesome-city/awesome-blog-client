@@ -1,0 +1,17 @@
+header {
+  background: #ffffff;
+
+  .title {
+    cursor: pointer;
+  }
+}
+
+.subTitleHeader {
+  .sns-link {
+    color: white;
+
+    &:hover {
+      color: antiquewhite;
+    }
+  }
+}

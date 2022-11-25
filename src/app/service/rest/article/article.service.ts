@@ -44,10 +44,15 @@ export class ArticleService {
           body: 'body',
           coverImageUrl: '',
           publishAt: '2022-10-07',
-          summary: 'sum',
-          tags: [],
-          thumbnailUrl: '',
-          title: 'title',
+          summary:
+            'EC2の無料期間が終了してしまい、正規の利用料金を払わなければならなくなり、\n' +
+            'EC2とロードバランサーを合わせて、月額3,000円強かかるようになってしまいました。\n',
+          tags: [
+            { id: 'hoge', name: 'AWS', color: '#eee' },
+            { id: 'hoge', name: 'AWS', color: '#eee' },
+          ],
+          thumbnailUrl: 'https://4mo.co/wp-content/uploads/2022/06/WordPress-Docker-Lightsail.jpg.webp',
+          title: 'Docker 構成の WordPress を EC2 から Lightsail にお引越し',
         },
         {
           id: 'i2',
@@ -57,7 +62,7 @@ export class ArticleService {
           publishAt: '2022-10-07',
           summary: 'sum',
           tags: [],
-          thumbnailUrl: '',
+          thumbnailUrl: 'https://4mo.co/wp-content/uploads/2022/06/WordPress-Docker-Lightsail.jpg.webp',
           title: 'title',
         },
       ],

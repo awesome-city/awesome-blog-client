@@ -1,0 +1,16 @@
+<ng-container *ngIf="site$ | async as site">
+  <div *ngIf="site.article.listType === 'list'">
+    <div class="row row-cols-1 row-cols-lg-2">
+      <div class="col" *ngFor="let article of articles">
+        <app-article-item [article]="article"></app-article-item>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="site.article.listType === 'card'">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+      <div class="col" *ngFor="let article of articles">
+        <app-article-card [article]="article"></app-article-card>
+      </div>
+    </div>
+  </div>
+</ng-container>

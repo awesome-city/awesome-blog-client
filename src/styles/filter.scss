@@ -1,0 +1,33 @@
+@import "variables";
+
+.filter {
+  z-index: 0;
+
+  &:before {
+    z-index: $z-index-filter;
+  }
+
+  &:after {
+    display: block;
+    z-index: 2;
+  }
+
+  &:before, &:after {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  &.texture-dot {
+    &::after {
+      background-color: rgba(0, 0, 0, .1);
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFAQMAAAC3obSmAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAGUExURUdwTAAAAJ8qhFEAAAABdFJOUwBA5thmAAAAEklEQVQI12MwYDBgYGBoYGAAAASKAOH8MS30AAAAAElFTkSuQmCC);
+      background-size: 2px;
+      background-repeat: repeat;
+      content: "";
+      opacity: .5;
+    }
+  }
+}

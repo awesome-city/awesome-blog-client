@@ -1,0 +1,33 @@
+<ng-container *ngIf="site$ | async as site">
+  <div
+    *ngIf="site.cover.coverType !== 'none'"
+    class="cover filter"
+    [ngClass]="{
+      'texture-dot': site.cover.filterType === 'dot'
+    }"
+    [ngStyle]="{
+      height: '30' + 'vh',
+      'max-height': '30' + 'vh'
+    }"
+  >
+    <div class="cover-image">
+      <video
+        *ngIf="site.cover.coverType === 'video'"
+        class="cover-image-video"
+        playsinline=""
+        autoplay=""
+        loop=""
+        muted=""
+        poster="{{ site.cover.coverImageUrl }}"
+      >
+        <source src="{{ site.cover.coverVideoUrl }}" />
+      </video>
+      <img
+        *ngIf="site.cover.coverType === 'image'"
+        class="cover-image-img"
+        src="{{ site.cover.coverImageUrl }}"
+        alt="cover image"
+      />
+    </div>
+  </div>
+</ng-container>

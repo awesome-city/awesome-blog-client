@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { getArticleByIdSelector } from '../../store/selectors/article.selector';
 import { State } from '../../../../store/app.state';
 import { ArticleAction } from '../../store/actions/article.action';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, Subscription, switchMap, tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { map, Observable, Subscription, tap } from 'rxjs';
 import { Article } from '../../../../models/article';
+import { ArticleSelector } from '../../store/selectors/articleSelector';
 
 @Component({
   selector: 'app-article-page',
@@ -26,7 +26,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
           tap(console.log)
         )
         .subscribe((id) => {
-          this.article$ = this.store.pipe(select(getArticleByIdSelector(id)));
+          this.article$ = this.store.pipe(select(ArticleSelector.getArticleById(id)));
           this.store.dispatch(ArticleAction.loadOne({ id: id }));
         })
     );

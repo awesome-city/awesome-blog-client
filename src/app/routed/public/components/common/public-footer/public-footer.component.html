@@ -1,0 +1,29 @@
+<footer
+  class="bg-dark text-center text-white"
+  [ngStyle]="{
+    position: position === 'sticky' ? 'fixed' : 'relative',
+    top: position === 'sticky' ? top + 'px' : undefined,
+    bottom: position === 'sticky' ? 0 : undefined,
+    left: position === 'sticky' ? 0 : undefined,
+    right: position === 'sticky' ? 0 : undefined
+  }"
+>
+  <div class="container p-4">
+    <section class="mb-3">
+      <ng-container *ngIf="site$ | async as site">
+        <a
+          *ngFor="let s of site.sns"
+          class="btn btn-outline-light btn-floating m-1"
+          [href]="s.link"
+          target="_blank"
+          role="button"
+        >
+          <app-sns-icon [snsType]="s.type"></app-sns-icon>
+        </a>
+      </ng-container>
+    </section>
+  </div>
+  <div class="text-center p-1 small" style="background-color: rgba(0, 0, 0, 0.2)">
+    © 2020-{{ today | date: 'yyyy' }} Quic
+  </div>
+</footer>

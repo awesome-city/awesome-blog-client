@@ -3,13 +3,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, distinctUntilChanged, filter, of, switchMap, withLatestFrom } from 'rxjs';
 import { ArticleService } from '../../../../service/rest/article/article.service';
 import { select, Store } from '@ngrx/store';
-import { loadingEndAction, loadingStartAction } from '../../../../store/actions/loading.action';
-import {
-  getArticlesLastEvaluatedKey,
-  getArticlesMapSelector,
-  getArticlesSelector,
-} from '../selectors/article.selector';
+import { loadingEndAction, loadingStartAction } from '../../../../store/actions/app-view.action';
 import { ArticleAction } from '../actions/article.action';
+import { ArticleSelector } from '../selectors/articleSelector';
 
 @Injectable()
 export class ArticleEffect {
@@ -18,7 +14,7 @@ export class ArticleEffect {
   loadOne$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ArticleAction.loadOne),
-      withLatestFrom(this.store.pipe(select(getArticlesMapSelector))),
+      withLatestFrom(this.store.pipe(select(ArticleSelector.getArticleMap))),
       switchMap(([{ id }, map]) => {
         if (map?.has(id)) {
           return of(ArticleAction.loadOneSuccess({}));
@@ -37,7 +33,7 @@ export class ArticleEffect {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ArticleAction.load),
-      withLatestFrom(this.store.pipe(select(getArticlesSelector))),
+      withLatestFrom(this.store.pipe(select(ArticleSelector.getArticles))),
       filter(([action, articles]) => !!action.reload || (!!articles && articles.length === 0)),
       switchMap(([action, articles]) => {
         const label = `article_load_all`;
@@ -53,7 +49,7 @@ export class ArticleEffect {
   loadAllMore$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ArticleAction.loadMore),
-      withLatestFrom(this.store.pipe(select(getArticlesLastEvaluatedKey))),
+      withLatestFrom(this.store.select(ArticleSelector.getArticlesLastEvaluatedKey)),
       // if lastEvaluatedKey is same value, stop stream
       distinctUntilChanged((previous, current) => previous[1] !== current[1]),
       switchMap(([{ limit }, lastEvaluatedKey]) => {

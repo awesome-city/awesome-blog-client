@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialState } from '../app.state';
-import { loadingEndAction, loadingStartAction } from '../actions/loading.action';
+import { loadingEndAction, loadingStartAction } from '../actions/app-view.action';
 
-export const loadingReducer = createReducer(
+export const appReducer = createReducer(
   initialState,
   on(loadingStartAction, (state, { label }) => ({
     ...state,

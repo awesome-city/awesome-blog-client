@@ -1,10 +1,10 @@
 import { Article } from '../../../models/article';
 import { Tag } from '../../../models/tag';
-import { Paging } from '../../../models/common/paging';
+import { PagingEntity } from '../../../models/common/paging-entity';
 
 export const featureName = 'public';
 
-export type ArticlePagingEntity = Paging<Article>;
+export type ArticlePagingEntity = PagingEntity<Article>;
 
 export interface PublicState {
   /**

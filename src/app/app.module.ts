@@ -5,10 +5,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ArticleService } from './service/rest/article/article.service';
 import { AppStoreModule } from './store/app-store.module';
 import { APP_BASE_HREF } from '@angular/common';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
+export const translateHttpLoaderFactory = (http: HttpClient) =>
+  new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +29,16 @@ import { APP_BASE_HREF } from '@angular/common';
       registrationStrategy: 'registerWhenStable:30000',
     }),
     HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'ja',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: translateHttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+    StoreModule.forRoot([]),
+    EffectsModule.forRoot([]),
     AppStoreModule,
   ],
   providers: [{ provide: APP_BASE_HREF, useValue: '/' }, ArticleService],

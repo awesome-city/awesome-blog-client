@@ -1,10 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SharedRoutingModule } from './shared-routing.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { SnsIconComponent } from './components/sns-icon/sns-icon.component';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, SharedRoutingModule],
+  declarations: [SnsIconComponent],
+  imports: [
+    CommonModule,
+    TranslateModule.forChild({
+      isolate: false,
+    }),
+  ],
+  exports: [TranslateModule, SnsIconComponent],
 })
 export class SharedModule {}

@@ -1,0 +1,30 @@
+<ng-container *ngIf="site$ | async as site">
+  <div
+    class="subTitleHeader"
+    [ngStyle]="{
+      'background-color': site.header.subTitleBarColor,
+      color: site.header.subTitleBarTextColor,
+      'font-size': '12px'
+    }"
+  >
+    <div class="container d-none d-md-block">
+      <div class="row">
+        <div class="col-8">{{ site.subTitle }}</div>
+        <div class="col-4 text-end">
+          <a *ngFor="let s of site.sns" class="me-2 sns-link" [href]="s.link" target="_blank">
+            <app-sns-icon [snsType]="s.type"></app-sns-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <header class="py-3">
+    <div class="container">
+      <div class="row flex-nowrap justify-content-between">
+        <div class="col-md-4 col-sm-12 text-md-start text-center">
+          <span class="display-6 text-dark title" routerLink="/">{{ site.title }}</span>
+        </div>
+      </div>
+    </div>
+  </header>
+</ng-container>

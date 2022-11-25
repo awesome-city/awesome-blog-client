@@ -1,0 +1,90 @@
+.card {
+
+  position: relative;
+
+  &:after {
+    z-index: 1;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .thumbnail-wrapper {
+    img {
+      object-fit: cover;
+      min-height: 140px;
+      max-height: 160px;
+      background-color: #d1d1d1;
+    }
+
+    margin-bottom: 0;
+  }
+
+  .tags {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 2;
+
+    .tag {
+      font-weight: normal;
+      cursor: pointer;
+      position: relative;
+
+      &:after {
+        z-index: 3;
+      }
+
+      &:hover {
+        &::after {
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          content: '';
+          background: rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  }
+
+  .card-body {
+    max-height: 180px;
+
+    .card-title {
+      height: 50px;
+      line-height: 25px;
+      font-weight: 600;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .card-text {
+      &.summary {
+        font-size: 0.75em;
+        height: 50px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+      }
+
+      &.publish-at {
+        font-size: 0.7em;
+      }
+    }
+  }
+
+}

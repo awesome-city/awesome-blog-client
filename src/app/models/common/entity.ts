@@ -1,4 +1,3 @@
-export interface Entity<T> {
-  ids: string[];
-  entities: Map<string, T>;
+export interface Entity {
+  id: string;
 }
