@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { State } from '../../../../store/app.state';
 import { ArticleAction } from '../../store/actions/article.action';
-import { filter, fromEvent, map, Subscription, tap, throttleTime, withLatestFrom } from 'rxjs';
+import { filter, fromEvent, Subscription, tap, throttleTime, withLatestFrom } from 'rxjs';
 import { ArticleSelector } from '../../store/selectors/articleSelector';
 
 @Component({
@@ -23,7 +23,6 @@ export class TopPageComponent implements OnInit, OnDestroy {
     this.sub$.add(
       fromEvent(window, 'scroll')
         .pipe(
-          map((_) => 0),
           throttleTime(100),
           withLatestFrom(this.store.select(ArticleSelector.getArticlesLastEvaluatedKey)),
           filter(([e, lastEvaluatedKey]) => !!lastEvaluatedKey),
