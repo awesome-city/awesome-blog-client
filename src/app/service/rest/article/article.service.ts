@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { StringUtils } from '../../../utils/string.utils';
-import { API } from '../api';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { GetArticleResponse } from '../../../models/http/article/get-article-response';
 import { GetArticlesResponse } from '../../../models/http/article/get-articles-response';
@@ -28,7 +26,7 @@ export class ArticleService {
     // return this.http.get<Article>(url);
   }
 
-  findAll(limit?: number, lastEvaluatedKey?: string): Observable<GetArticlesResponse> {
+  findAll(limit?: number, lastEvaluatedKey?: string, param?: findArticlesParam): Observable<GetArticlesResponse> {
     // const url = API.GET_ARTICLES;
     // let params = new HttpParams();
     // params = limit ? params.set('limit', `${limit}`) : params;
@@ -68,12 +66,8 @@ export class ArticleService {
       ],
     });
   }
+}
 
-  findByTag(tagId: string, limit?: number, lastEvaluatedKey?: string) {
-    const url = StringUtils.format(API.GET_ARTICLES_BY_TAG, { id: tagId });
-    let params = new HttpParams();
-    params = limit ? params.set('limit', `${limit}`) : params;
-    params = limit ? params.set('lastEvaluatedKey', `${lastEvaluatedKey}`) : params;
-    return this.http.get<GetArticlesResponse>(url, { params });
-  }
+export interface findArticlesParam {
+  tag: string;
 }

@@ -13,6 +13,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 export const translateHttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -39,6 +40,9 @@ export const translateHttpLoaderFactory = (http: HttpClient) =>
     }),
     StoreModule.forRoot([]),
     EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({
+      serialize: true,
+    }),
     AppStoreModule,
   ],
   providers: [{ provide: APP_BASE_HREF, useValue: '/' }, ArticleService],

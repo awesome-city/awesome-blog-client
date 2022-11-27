@@ -3,25 +3,36 @@ import { Entity } from './entity';
 export interface ListEntity<T extends Entity> {
   ids: string[];
   entities: Map<string, T>;
+
+  add?(items: T[], noIndex?: boolean): ListEntity<T>;
+
+  update?(items: T[]): ListEntity<T>;
 }
 
 export class ListEntityImpl<T extends Entity> implements ListEntity<T> {
   entities: Map<string, T> = new Map<string, T>();
   ids: string[] = [];
 
-  add(...items: T[]) {
-    const nextIndex = this.ids.length;
-    items.forEach((item, i) => {
-      this.ids.push(item.id);
-      this.entities.set(item.id, item);
-    });
+  constructor(items: T[]) {
+    this.add(items);
   }
 
-  update(...items: T[]) {
+  add(items: T[], noIndex?: boolean): ListEntity<T> {
+    items.forEach((item) => {
+      if (typeof noIndex === 'undefined' || !noIndex) {
+        this.ids.push(item.id);
+      }
+      this.entities.set(item.id, item);
+    });
+    return this;
+  }
+
+  update(items: T[]): ListEntity<T> {
     items.forEach((item) => {
       if (this.entities.has(item.id)) {
         this.entities.set(item.id, item);
       }
     });
+    return this;
   }
 }

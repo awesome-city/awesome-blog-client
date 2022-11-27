@@ -21,10 +21,10 @@ export const ArticleAction = createActionGroup({
 
     // タグ別記事一覧
     'load by tag': props<{ tagId: string; limit?: number; reload?: boolean }>(),
-    'load by tag success': props<{ result: GetArticlesResponse }>(),
-    'load by tag failure': props<{ error: any }>(),
+    'load by tag success': props<{ tagId: string; result: GetArticlesResponse }>(),
+    'load by tag failure': props<{ tagId: string; error: any }>(),
     'load more by tag': props<{ tagId: string; limit?: number }>(),
-    'load more by tag success': props<{ result: GetArticlesResponse }>(),
-    'load more by tag failure': props<{ error: any }>(),
+    'load more by tag success': props<{ tagId: string; result: GetArticlesResponse }>(),
+    'load more by tag failure': props<{ tagId: string; error: any }>(),
   },
 });
