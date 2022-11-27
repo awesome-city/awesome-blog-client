@@ -1,1 +1,11 @@
-<p>tag-page works!</p>
+<div class="container">
+  <div class="col-12">
+    <app-breadcrumb [breadcrumbs]="[{ name: 'AWS', icon: 'bi bi-tag' }]"></app-breadcrumb>
+  </div>
+</div>
+
+<div *ngIf="articles$ | async as articles" class="container mb-3">
+  <div class="col-xs-12 offset-xs-0 col-md-10 offset-md-1 col-xl-8 offset-xl-2">
+    <app-article-list [articles]="articles"></app-article-list>
+  </div>
+</div>

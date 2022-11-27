@@ -1,6 +1,6 @@
 import { Article } from '../../../models/article';
 import { Tag } from '../../../models/tag';
-import { PagingEntity } from '../../../models/common/paging-entity';
+import { PagingEntity, PagingEntityImpl } from '../../../models/common/paging-entity';
 
 export const featureName = 'public';
 
@@ -29,10 +29,7 @@ export interface PublicState {
 }
 
 export const initialState: PublicState = {
-  articles: {
-    ids: [],
-    entities: new Map<string, Article>(),
-  },
+  articles: new PagingEntityImpl<Article>([]),
   articlesByTag: new Map<string, ArticlePagingEntity>(),
   tags: [],
 };

@@ -15,6 +15,7 @@ import { CoverComponent } from './components/common/cover/cover.component';
 import { ArticleCardComponent } from './components/article/article-card/article-card.component';
 import { ArticleItemComponent } from './components/article/article-item/article-item.component';
 import { PublicFooterComponent } from './components/common/public-footer/public-footer.component';
+import { BreadcrumbComponent } from './components/common/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { PublicFooterComponent } from './components/common/public-footer/public-
     ArticleCardComponent,
     ArticleItemComponent,
     PublicFooterComponent,
+    BreadcrumbComponent,
   ],
   imports: [CommonModule, SharedModule, PublicRoutingModule, PublicStoreModule],
 })
