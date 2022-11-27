@@ -18,6 +18,9 @@ describe('TagPageComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             params: of({ id: 'hoge' }),
+            snapshot: {
+              params: { id: 'hoge' },
+            },
           },
         },
       ],
