@@ -1,7 +1,4 @@
-import { Component } from '@angular/core';
-import { appSelectors } from '../../../../../store/selectors/app.selector';
-import { Store } from '@ngrx/store';
-import { State } from '../../../../../store/app.state';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-cover',
@@ -9,7 +6,18 @@ import { State } from '../../../../../store/app.state';
   styleUrls: ['./cover.component.scss'],
 })
 export class CoverComponent {
-  site$ = this.store.select(appSelectors.getSite);
+  @Input()
+  display: boolean = true;
 
-  constructor(private store: Store<State>) {}
+  @Input()
+  filterType: 'dot' | 'none' = 'dot';
+
+  @Input()
+  imageUrl?: string;
+
+  @Input()
+  videoUrl?: string;
+
+  @Input()
+  height: number = 250;
 }

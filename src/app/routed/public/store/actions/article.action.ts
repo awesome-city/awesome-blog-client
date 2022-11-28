@@ -8,8 +8,8 @@ export const ArticleAction = createActionGroup({
   events: {
     // 記事
     'load one': props<{ id: string; reload?: boolean }>(),
-    'load one success': props<{ result?: GetArticleResponse }>(),
-    'load one failure': props<{ error: any }>(),
+    'load one success': props<{ id: string; result?: GetArticleResponse }>(),
+    'load one failure': props<{ id: string; error: any }>(),
 
     // 記事一覧
     load: props<{ limit?: number; reload?: boolean }>(),

@@ -12,15 +12,20 @@ export class ArticleService {
 
   findById(articleId: string): Observable<GetArticleResponse> {
     return of({
-      id: 'id',
+      id: 'id1',
       author: { id: 'author_1', name: 'shimoda', profile: 'prof', thumbnailUrl: 'thumb' },
       body: 'body',
       coverImageUrl: '',
       publishAt: '2022-10-07',
-      summary: 'sum',
-      tags: [],
-      thumbnailUrl: '',
-      title: 'title',
+      summary:
+        'EC2の無料期間が終了してしまい、正規の利用料金を払わなければならなくなり、\n' +
+        'EC2とロードバランサーを合わせて、月額3,000円強かかるようになってしまいました。\n',
+      tags: [
+        { id: 'hoge', name: 'AWS', color: '#eee' },
+        { id: 'hoge', name: 'AWS', color: '#eee' },
+      ],
+      thumbnailUrl: 'https://4mo.co/wp-content/uploads/2022/06/WordPress-Docker-Lightsail.jpg.webp',
+      title: 'Docker 構成の WordPress を EC2 から Lightsail にお引越し',
     });
     // const url = StringUtils.format(API.GET_ARTICLE, {id: articleId});
     // return this.http.get<Article>(url);

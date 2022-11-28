@@ -1,6 +1,13 @@
-<div class="mb-3">
-  <app-cover></app-cover>
-</div>
+<ng-container *ngIf="site$ | async as site">
+  <div *ngIf="site.cover.coverType !== 'none'" class="mb-3">
+    <app-cover
+      [height]="250"
+      [filterType]="site.cover.filterType"
+      [imageUrl]="site.cover.coverImageUrl"
+      [videoUrl]="site.cover.coverVideoUrl"
+    ></app-cover>
+  </div>
+</ng-container>
 <div *ngIf="articles$ | async as articles" class="container mb-3">
   <div class="col-xs-12 offset-xs-0 col-md-10 offset-md-1 col-xl-8 offset-xl-2">
     <app-article-list [articles]="articles"></app-article-list>

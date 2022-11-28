@@ -1,7 +1,18 @@
-<p>article-page works!</p>
-
-<div *ngIf="article$ | async as article">
-  <span>{{ article | json }}</span>
-</div>
-
-<a [routerLink]="['']">記事一覧</a>
+<ng-container *ngIf="article$ | async as article">
+  <div class="article-header mb-3 position-relative">
+    <app-cover [height]="150" [filterType]="'dot'" [imageUrl]="article.thumbnailUrl"></app-cover>
+    <div class="article-metadata-wrapper position-absolute d-flex justify-content-center align-items-center">
+      <div class="container">
+        <h1 class="text-white article-title">{{ article.title }}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container-lg">
+    <div class="col-9">
+      <span>{{ article | json }}</span>
+    </div>
+    <div class="col-3">
+      <app-public-sidebar></app-public-sidebar>
+    </div>
+  </div>
+</ng-container>

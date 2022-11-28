@@ -4,6 +4,7 @@ import { State } from '../../../../store/app.state';
 import { ArticleAction } from '../../store/actions/article.action';
 import { filter, fromEvent, Subscription, tap, throttleTime, withLatestFrom } from 'rxjs';
 import { ArticleSelector } from '../../store/selectors/articleSelector';
+import { appSelectors } from '../../../../store/selectors/app.selector';
 
 @Component({
   selector: 'app-top-page',
@@ -12,6 +13,7 @@ import { ArticleSelector } from '../../store/selectors/articleSelector';
 })
 export class TopPageComponent implements OnInit, OnDestroy {
   articles$ = this.store.pipe(select(ArticleSelector.getArticles));
+  site$ = this.store.pipe(select(appSelectors.getSite));
   sub$ = new Subscription();
 
   constructor(private store: Store<State>) {}
