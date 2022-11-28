@@ -1,18 +1,20 @@
 <ng-container *ngIf="article$ | async as article">
-  <div class="article-header mb-3 position-relative">
-    <app-cover [height]="150" [filterType]="'dot'" [imageUrl]="article.thumbnailUrl"></app-cover>
-    <div class="article-metadata-wrapper position-absolute d-flex justify-content-center align-items-center">
-      <div class="container">
-        <h1 class="text-white article-title">{{ article.title }}</h1>
+  <!--ヘッダー-->
+  <app-article-header [article]="article"></app-article-header>
+
+  <!--本文/サイドバー-->
+  <div class="container-fluid contents-wrapper p-4">
+    <div class="row">
+      <div class="container-xl">
+        <div class="row">
+          <div class="contents p-3">
+            <span>{{ article | json }}</span>
+          </div>
+          <div class="contents-sidebar">
+            <app-public-sidebar></app-public-sidebar>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="container-lg">
-    <div class="col-9">
-      <span>{{ article | json }}</span>
-    </div>
-    <div class="col-3">
-      <app-public-sidebar></app-public-sidebar>
     </div>
   </div>
 </ng-container>

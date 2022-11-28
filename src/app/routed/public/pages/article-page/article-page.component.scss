@@ -1,18 +1,37 @@
-.article-header {
-  width: 100%;
-  height: 150px;
-  left: 0;
-  top: 0;
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins/breakpoints";
 
-  .article-metadata-wrapper {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.contents-wrapper {
+  background-color: #f5f5f5;
 
-    .article-title {
-      font-size: 24px;
-      font-weight: 600;
+  .contents {
+    background-color: white;
+  }
+
+  .contents-sidebar {
+    width: 320px;
+    padding: 0 10px;
+  }
+
+  @include media-breakpoint-down(lg) {
+    .contents {
+      width: 100%;
+    }
+
+    .contents-sidebar{
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .contents {
+      width: calc(100% - 320px);
+    }
+
+    .contents-sidebar{
+      display: block;
     }
   }
 }
+

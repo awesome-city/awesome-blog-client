@@ -1,0 +1,20 @@
+<div class="article-header position-relative">
+  <app-cover [height]="150" [filterType]="'dot'" [imageUrl]="article?.thumbnailUrl"></app-cover>
+  <div class="article-metadata-wrapper position-absolute d-flex justify-content-center align-items-center">
+    <div class="container text-white">
+      <div class="row">
+        <div class="article-upload-at float-start">
+          {{ article?.publishAt | date: 'mediumDate' }}
+        </div>
+        <h1 class="article-title float-start">{{ article?.title }}</h1>
+      </div>
+      <div class="row mt-2">
+        <div class="col-12">
+          <span *ngFor="let tag of article?.tags" class="tag float-start me-2 small text-decoration-underline">
+            <i class="bi bi-tag"></i>{{ tag.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

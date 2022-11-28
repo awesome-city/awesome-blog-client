@@ -1,0 +1,61 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins/breakpoints";
+
+.article-header {
+  width: 100%;
+  height: 150px;
+  left: 0;
+  top: 0;
+
+  .article-metadata-wrapper {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    .article-upload-at {
+      width: 80px;
+      font-size: 18px;
+      border-right: white solid 1px;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .article-title {
+      width: calc(100% - 80px);
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      .article-upload-at {
+        font-size: 16px;
+      }
+      .article-title {
+        font-size: 18px;
+      }
+    }
+
+    .tag {
+      position: relative;
+      cursor: pointer;
+
+      &:after {
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      &:hover {
+        &::after {
+          content: "";
+          background-color: rgba(210, 210, 210, 0.3);
+        }
+      }
+    }
+  }
+}
