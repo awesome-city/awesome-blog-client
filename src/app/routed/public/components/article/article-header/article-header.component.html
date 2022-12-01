@@ -10,7 +10,11 @@
       </div>
       <div class="row mt-2">
         <div class="col-12">
-          <span *ngFor="let tag of article?.tags" class="tag float-start me-2 small text-decoration-underline">
+          <span
+            *ngFor="let tag of article?.tags"
+            [routerLink]="['/tags', tag.id]"
+            class="tag float-start me-2 small text-decoration-underline"
+          >
             <i class="bi bi-tag"></i>{{ tag.name }}
           </span>
         </div>

@@ -8,7 +8,7 @@
       <div class="container-xl">
         <div class="row">
           <div class="contents p-3">
-            <span>{{ article | json }}</span>
+            <app-article-view [article]="article"></app-article-view>
           </div>
           <div class="contents-sidebar">
             <app-public-sidebar></app-public-sidebar>
