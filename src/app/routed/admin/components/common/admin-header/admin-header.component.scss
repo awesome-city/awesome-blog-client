@@ -1,0 +1,10 @@
+header {
+  .header-row {
+    height: 36px;
+    position: relative;
+
+    > *:first-child {
+      margin-right: auto;
+    }
+  }
+}
