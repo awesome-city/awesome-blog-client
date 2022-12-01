@@ -61,18 +61,11 @@ export const publicReducer = createReducer(
     ...state,
     error: error,
   })),
-  on(ArticleAction.loadOneSuccess, (state, { result }) => {
-    if (result) {
-      return {
-        ...state,
-        articles: {
-          ...state.articles,
-          entities: new Map([...state.articles.entities.entries(), [result.id, result]]),
-        },
-      };
-    } else {
-      return state;
-    }
+  on(ArticleAction.loadOneSuccess, (state, { id, result }) => {
+    return {
+      ...state,
+      articles: state.articles.add && result ? state.articles.add([result], true) : state.articles,
+    };
   }),
   on(ArticleAction.loadOneFailure, (state, { error }) => ({
     ...state,

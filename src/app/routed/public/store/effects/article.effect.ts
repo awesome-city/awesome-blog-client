@@ -17,13 +17,13 @@ export class ArticleEffect {
       withLatestFrom(this.store.pipe(select(ArticleSelector.getArticleMap))),
       switchMap(([{ id }, map]) => {
         if (map?.has(id)) {
-          return of(ArticleAction.loadOneSuccess({}));
+          return of(ArticleAction.loadOneSuccess({ id, result: map.get(id) }));
         } else {
           const label = `article_load_${id}`;
           this.store.dispatch(loadingStartAction({ label }));
           return this.articleService.findById(id).pipe(
-            switchMap((result) => of(ArticleAction.loadOneSuccess({ result }), loadingEndAction({ label }))),
-            catchError((error) => of(ArticleAction.loadOneFailure({ error }), loadingEndAction({ label })))
+            switchMap((result) => of(ArticleAction.loadOneSuccess({ id, result }), loadingEndAction({ label }))),
+            catchError((error) => of(ArticleAction.loadOneFailure({ id, error }), loadingEndAction({ label })))
           );
         }
       })
