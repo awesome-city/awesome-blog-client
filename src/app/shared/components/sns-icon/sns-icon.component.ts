@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ProfileSNSType } from '../../../models/site';
+import { ProfileSNSType } from '../../../models/entity/site';
 
 @Component({
   selector: 'app-sns-icon',

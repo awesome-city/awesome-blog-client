@@ -1,5 +1,5 @@
-import { Author } from '../models/author';
-import { Site } from '../models/site';
+import { Author } from '../models/entity/author';
+import { Site } from '../models/entity/site';
 
 export const appFeatureKey = 'app';
 

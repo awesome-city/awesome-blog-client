@@ -35,10 +35,10 @@ export class ArticleEffect {
       ofType(ArticleAction.load),
       withLatestFrom(this.store.pipe(select(ArticleSelector.getArticles))),
       filter(([action, articles]) => !!action.reload || (!!articles && articles.length === 0)),
-      switchMap(([action, _]) => {
+      switchMap(([{ limit }, _]) => {
         const label = `article_load_all`;
         this.store.dispatch(loadingStartAction({ label }));
-        return this.articleService.findAll(action.limit).pipe(
+        return this.articleService.findAll({ limit }).pipe(
           switchMap((result) => of(ArticleAction.loadSuccess({ result }), loadingEndAction({ label }))),
           catchError((error) => of(ArticleAction.loadFailure({ error }), loadingEndAction({ label })))
         );
@@ -55,7 +55,7 @@ export class ArticleEffect {
       switchMap(([{ limit }, lastEvaluatedKey]) => {
         const label = `article_load_more_${lastEvaluatedKey}`;
         this.store.dispatch(loadingStartAction({ label }));
-        return this.articleService.findAll(limit, lastEvaluatedKey).pipe(
+        return this.articleService.findAll({ limit, lastEvaluatedKey }).pipe(
           switchMap((result) => of(ArticleAction.loadMoreSuccess({ result }), loadingEndAction({ label }))),
           catchError((error) => of(ArticleAction.loadMoreFailure({ error }), loadingEndAction({ label })))
         );
@@ -71,7 +71,7 @@ export class ArticleEffect {
       switchMap(([{ tagId, limit }, _]) => {
         const label = `article_load_by_tag_${tagId}`;
         this.store.dispatch(loadingStartAction({ label }));
-        return this.articleService.findAll(limit, undefined, { tag: tagId }).pipe(
+        return this.articleService.findAll({ limit, tag: tagId }).pipe(
           switchMap((result) => of(ArticleAction.loadByTagSuccess({ tagId, result }), loadingEndAction({ label }))),
           catchError((error) => of(ArticleAction.loadByTagFailure({ tagId, error }), loadingEndAction({ label })))
         );
@@ -88,7 +88,7 @@ export class ArticleEffect {
       switchMap(([{ tagId, limit }, lastEvaluatedKey]) => {
         const label = `article_load_more_${lastEvaluatedKey}_${tagId}`;
         this.store.dispatch(loadingStartAction({ label }));
-        return this.articleService.findAll(limit, lastEvaluatedKey, { tag: tagId }).pipe(
+        return this.articleService.findAll({ limit, lastEvaluatedKey, tag: tagId }).pipe(
           switchMap((result) => of(ArticleAction.loadMoreByTagSuccess({ tagId, result }), loadingEndAction({ label }))),
           catchError((error) => of(ArticleAction.loadMoreByTagFailure({ tagId, error }), loadingEndAction({ label })))
         );

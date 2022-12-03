@@ -1,5 +1,5 @@
-import { Article } from '../../../models/article';
-import { Tag } from '../../../models/tag';
+import { Article } from '../../../models/entity/article';
+import { Tag } from '../../../models/entity/tag';
 import { PagingEntity, PagingEntityImpl } from '../../../models/common/paging-entity';
 
 export const featureName = 'public';

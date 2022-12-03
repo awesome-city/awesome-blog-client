@@ -5,7 +5,7 @@ import { ArticleSelector } from '../../store/selectors/articleSelector';
 import { filter, fromEvent, Observable, Subscription, tap, throttleTime, withLatestFrom } from 'rxjs';
 import { State } from '../../../../store/app.state';
 import { ArticleAction } from '../../store/actions/article.action';
-import { Article } from '../../../../models/article';
+import { Article } from '../../../../models/entity/article';
 
 @Component({
   selector: 'app-tag-page',

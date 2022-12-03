@@ -1,5 +1,5 @@
 import { createActionGroup, props } from '@ngrx/store';
-import { Article } from '../../../../models/article';
+import { Article } from '../../../../models/entity/article';
 import { GetArticlesResponse } from '../../../../models/http/article/get-articles-response';
 import { GetArticleResponse } from '../../../../models/http/article/get-article-response';
 

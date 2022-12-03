@@ -1,4 +1,4 @@
-import { Article } from '../../article';
+import { Article } from '../../entity/article';
 
 export interface GetArticlesResponse {
   list: Article[];

@@ -1,9 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { featureName, PublicState } from '../public.state';
-import { Article } from '../../../../models/article';
+import { Article } from '../../../../models/entity/article';
 
-export const getState = createFeatureSelector<PublicState>(featureName);
+const getState = createFeatureSelector<PublicState>(featureName);
 
 export const ArticleSelector = {
   getArticleById: (id: string) => createSelector(getState, (state) => state.articles.entities.get(id)),

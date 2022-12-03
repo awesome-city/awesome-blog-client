@@ -4,6 +4,10 @@ export interface ListEntity<T extends Entity> {
   ids: string[];
   entities: Map<string, T>;
 
+  get(id: string): T | undefined;
+
+  getAll(): T[];
+
   add?(items: T[], noIndex?: boolean): ListEntity<T>;
 
   update?(items: T[]): ListEntity<T>;
@@ -15,6 +19,14 @@ export class ListEntityImpl<T extends Entity> implements ListEntity<T> {
 
   constructor(items: T[]) {
     this.add(items);
+  }
+
+  get(id: string): T | undefined {
+    return this.entities.get(id) as T;
+  }
+
+  getAll(): T[] {
+    return this.ids.map((id) => this.entities.get(id) as T);
   }
 
   add(items: T[], noIndex?: boolean): ListEntity<T> {

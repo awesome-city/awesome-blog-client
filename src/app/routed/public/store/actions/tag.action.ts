@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Tag } from '../../../../models/tag';
+import { Tag } from '../../../../models/entity/tag';
 
 export const loadTags = createAction('[Tag] load');
 

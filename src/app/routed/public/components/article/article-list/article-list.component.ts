@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Article } from '../../../../../models/article';
+import { Article } from '../../../../../models/entity/article';
 import { Store } from '@ngrx/store';
 import { appSelectors } from '../../../../../store/selectors/app.selector';
 

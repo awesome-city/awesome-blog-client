@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialState } from '../public.state';
 import { ArticleAction } from '../actions/article.action';
-import { Article } from '../../../../models/article';
+import { Article } from '../../../../models/entity/article';
 import { PagingEntityImpl } from '../../../../models/common/paging-entity';
 
 export const publicReducer = createReducer(

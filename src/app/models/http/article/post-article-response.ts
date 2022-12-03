@@ -1,3 +1,3 @@
 import { Article } from '../../entity/article';
 
-export type GetArticleResponse = Article;
+export type PostArticleResponse = Article;

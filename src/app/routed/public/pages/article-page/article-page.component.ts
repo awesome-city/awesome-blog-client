@@ -4,7 +4,7 @@ import { State } from '../../../../store/app.state';
 import { ArticleAction } from '../../store/actions/article.action';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, Subscription, tap } from 'rxjs';
-import { Article } from '../../../../models/article';
+import { Article } from '../../../../models/entity/article';
 import { ArticleSelector } from '../../store/selectors/articleSelector';
 
 @Component({
