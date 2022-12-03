@@ -1,0 +1,28 @@
+<header *ngIf="site$ | async as site" class="p-1 border-bottom">
+  <div class="container-fluid">
+    <div class="header-row d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <div>
+        <a [routerLink]="['/']" class="d-flex align-items-center mb-0 text-dark text-decoration-none">
+          <i class="bi bi-bootstrap me-2 fs-4" aria-label="Bootstrap"></i>
+          {{ site.title }}
+        </a>
+      </div>
+
+      <div *ngFor="let h of header" class="dropdown text-end me-3">
+        <a class="d-block link-dark text-decoration-none dropdown-toggle">
+          <i class="{{ h.iconClass }} fs-5 d-inline-block" style="height: 28px; width: 28px"></i>
+        </a>
+        <ul (click)="onClickMenu($event)" class="dropdown-menu small">
+          <li
+            *ngFor="let sub of h.subs"
+            [routerLink]="sub.link"
+            (click)="sub.onClick ? sub.onClick($event) : undefined"
+            class="dropdown-item"
+          >
+            {{ sub.title }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>

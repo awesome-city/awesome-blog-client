@@ -119,6 +119,7 @@ jobs:
       - upload-static-files
       - create-lambda-version
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
