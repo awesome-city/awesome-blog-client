@@ -1,0 +1,18 @@
+.sidebar {
+  width: 3rem;
+  height: calc(100vh - 45px);
+
+  .dropdown {
+    .dropdown-menu {
+      > li {
+        cursor: pointer;
+      }
+    }
+
+    &:hover .dropdown-menu {
+      display: block;
+      margin-top: -36px;
+      margin-left: 47px;
+    }
+  }
+}
