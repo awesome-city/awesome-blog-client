@@ -8,22 +8,19 @@
         </a>
       </div>
 
-      <div class="dropdown text-end me-3">
+      <div *ngFor="let h of header" class="dropdown text-end me-3">
         <a class="d-block link-dark text-decoration-none dropdown-toggle">
-          <i class="bi bi-plus fs-5 d-inline-block" style="height: 28px; width: 28px"></i>
+          <i class="{{ h.iconClass }} fs-5 d-inline-block" style="height: 28px; width: 28px"></i>
         </a>
         <ul (click)="onClickMenu($event)" class="dropdown-menu small">
-          <li [routerLink]="['/admin', 'articles', 'draft']" class="dropdown-item">新規記事</li>
-        </ul>
-      </div>
-
-      <div class="dropdown text-end me-3">
-        <a class="d-block link-dark text-decoration-none dropdown-toggle">
-          <i class="bi bi-person-circle fs-5 d-inline-block" style="height: 28px; width: 28px"></i>
-        </a>
-        <ul (click)="onClickMenu($event)" class="dropdown-menu small">
-          <li [routerLink]="['/me', 'profile']" class="dropdown-item">個人設定</li>
-          <li (click)="onClickSignOut()" class="dropdown-item">Sign out</li>
+          <li
+            *ngFor="let sub of h.subs"
+            [routerLink]="sub.link"
+            (click)="sub.onClick ? sub.onClick($event) : undefined"
+            class="dropdown-item"
+          >
+            {{ sub.title }}
+          </li>
         </ul>
       </div>
     </div>

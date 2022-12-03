@@ -10,7 +10,34 @@ import { appSelectors } from '../../../../../store/selectors/app.selector';
 export class AdminHeaderComponent {
   site$ = this.store.pipe(select(appSelectors.getSite));
 
-  constructor(private store: Store) {}
+  header: HeaderMenu[] = [];
+
+  constructor(private store: Store) {
+    this.header = [
+      {
+        iconClass: 'bi bi-plus',
+        subs: [
+          {
+            title: '新規記事',
+            link: ['/admin', 'articles', 'draft'],
+          },
+        ],
+      },
+      {
+        iconClass: 'bi bi-person-circle',
+        subs: [
+          {
+            title: '個人設定',
+            link: ['/me', 'profile'],
+          },
+          {
+            title: 'ログアウト',
+            onClick: this.onClickSignOut,
+          },
+        ],
+      },
+    ];
+  }
 
   onClickMenu(e: Event) {
     const elem = e.target as HTMLInputElement;
@@ -20,5 +47,18 @@ export class AdminHeaderComponent {
     }, 10);
   }
 
-  onClickSignOut() {}
+  onClickSignOut() {
+    console.log('logout.');
+  }
+}
+
+interface HeaderMenu {
+  iconClass: string;
+  subs: SubMenu[];
+}
+
+interface SubMenu {
+  title: string;
+  link?: string[];
+  onClick?: (e: Event) => void;
 }

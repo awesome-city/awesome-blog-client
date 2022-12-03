@@ -5,9 +5,7 @@ import { MeRoutingModule } from './me-routing.module';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 
 @NgModule({
-  declarations: [
-    ProfilePageComponent
-  ],
+  declarations: [ProfilePageComponent],
   imports: [CommonModule, SharedModule, MeRoutingModule],
 })
 export class MeModule {}
