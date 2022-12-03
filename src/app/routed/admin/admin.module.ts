@@ -12,7 +12,15 @@ import { ArticlePageComponent } from './pages/article/article-page/article-page.
 import { BasicSettingPageComponent } from './pages/settings/basic-setting-page/basic-setting-page.component';
 
 @NgModule({
-  declarations: [AdminSidebarComponent, AdminComponent, AdminHeaderComponent, DashboardPageComponent, ArticlesPageComponent, ArticlePageComponent, BasicSettingPageComponent],
+  declarations: [
+    AdminSidebarComponent,
+    AdminComponent,
+    AdminHeaderComponent,
+    DashboardPageComponent,
+    ArticlesPageComponent,
+    ArticlePageComponent,
+    BasicSettingPageComponent,
+  ],
   imports: [CommonModule, SharedModule, AdminRoutingModule],
   exports: [],
 })

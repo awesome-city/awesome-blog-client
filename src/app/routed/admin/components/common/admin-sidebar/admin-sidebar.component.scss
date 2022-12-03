@@ -1,11 +1,12 @@
 .sidebar {
   width: 3rem;
-  height: calc(100vh - 45px);
+  height: calc(100vh - 39px);
 
   .dropdown {
     .dropdown-menu {
       > li {
         cursor: pointer;
+        font-size: 14px;
       }
     }
 
