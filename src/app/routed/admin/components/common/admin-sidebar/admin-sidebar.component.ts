@@ -18,6 +18,7 @@ export class AdminSidebarComponent {
       {
         title: 'Articles',
         iconClass: 'bi bi-journal',
+        link: ['/admin', 'articles'],
         subs: [
           {
             title: '記事一覧',
@@ -32,6 +33,7 @@ export class AdminSidebarComponent {
       {
         title: 'Settings',
         iconClass: 'bi bi-gear',
+        link: ['/admin', 'settings', 'basic'],
         subs: [
           {
             title: '基本設定',
@@ -50,7 +52,7 @@ export class AdminSidebarComponent {
         if (elem.parentElement) {
           elem.parentElement.style.display = '';
         }
-      }, 10);
+      });
     }
   }
 }

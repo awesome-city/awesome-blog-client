@@ -1,27 +1,27 @@
 <nav class="sidebar border-end">
   <div class="d-flex flex-column flex-shrink-0 bg-light">
     <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-      <li class="nav-item" *ngFor="let item of sidebar">
+      <li class="nav-item dropdown" *ngFor="let item of sidebar">
         <a
           [routerLink]="item.link ? item.link : undefined"
           routerLinkActive="active"
-          class="nav-link py-1 px-0 dropdown"
+          class="nav-link py-1 px-0"
           [title]="item.title | translate"
         >
           <i class="{{ item.iconClass }} fs-5"></i>
-          <ul *ngIf="item.subs && item.subs.length > 0" class="submenu dropdown-menu">
-            <li
-              [routerLink]="subItem.link"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              *ngFor="let subItem of item.subs"
-              (click)="onClickMenu($event)"
-              class="dropdown-item"
-            >
-              {{ subItem.title }}
-            </li>
-          </ul>
         </a>
+        <ul *ngIf="item.subs && item.subs.length > 0" class="submenu dropdown-menu">
+          <li
+            [routerLink]="subItem.link"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            *ngFor="let subItem of item.subs"
+            (click)="onClickMenu($event)"
+            class="dropdown-item"
+          >
+            {{ subItem.title }}
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
