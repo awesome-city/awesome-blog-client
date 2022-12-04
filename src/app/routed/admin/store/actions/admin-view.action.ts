@@ -1,5 +1,13 @@
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
+import { Article } from '../../../../models/entity/article';
 
-export const loadingStartAction = createAction('[Loading] start', props<{ label: string }>());
-
-export const loadingEndAction = createAction('[Loading] end', props<{ label: string }>());
+export const AdminViewAction = createActionGroup({
+  source: 'Admin View',
+  events: {
+    'load articles': props<any>(),
+    'load article': props<{ id: string }>(),
+    'save article': props<{ article: Article }>(),
+    'publish article': props<{ id: string }>(),
+    'delete article': props<{ id: string }>(),
+  },
+});

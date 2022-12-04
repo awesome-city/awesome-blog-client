@@ -24,19 +24,27 @@ export const AdminApiAction = createActionGroup({
     'load draft more success': props<{ result: GetArticlesResponse }>(),
     'load draft more failure': props<{ error: any }>(),
 
-    // 記事
+    // 記事取得
     'load article': props<{ id: string; reload?: boolean }>(),
     'load article success': props<{ id: string; result?: GetArticleResponse }>(),
     'load article failure': props<{ id: string; error: any }>(),
+
+    // 記事作成
     'create article': props<{ article: Article }>(),
     'create article success': props<{ id: string; result?: PostArticleResponse }>(),
     'create article failure': props<{ id: string; error: any }>(),
+
+    // 記事保存
     'save article': props<{ article: Article }>(),
     'save article success': props<{ id: string; result?: PutArticleResponse }>(),
     'save article failure': props<{ id: string; error: any }>(),
+
+    // 記事公開
     'publish article': props<{ id: string }>(),
     'publish article success': props<{ id: string; result?: PutArticleResponse }>(),
     'publish article failure': props<{ id: string; error: any }>(),
+
+    // 記事削除
     'delete article': props<{ id: string }>(),
     'delete article success': props<{ id: string }>(),
     'delete article failure': props<{ id: string; error: any }>(),
